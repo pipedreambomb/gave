@@ -1,12 +1,31 @@
+Donations = new Meteor.Collection("Donations")
+Donations.removeAll = ->
+  @remove({})
+
 if Meteor.isClient
 
-  Template.hello.greeting = ->
-    "Welcome to gave."
+  Template.donations.Donations = ->
+    Donations.find()
 
-  Template.hello.events = 
-    'click input': ->
-      # template data, if any, is available in 'this'
-      console.log "You pressed the button" if console
+  Template.donations.SubTotal = ->
+    subtotal = 0
+    Donations.find().forEach (d) ->
+      subtotal += d.amount
+    subtotal
 
 if Meteor.isServer
-  Meteor.startup ->
+
+	Meteor.startup ->
+
+		Donations.removeAll()
+		
+		Donations.insert
+			charity: "Oxfam"
+			amount: 19
+			date: "Wednesday 19th July 2011"
+    
+		Donations.insert
+			charity: 'JRS'
+			amount: 94
+			date: 'Wednesday 19th July 2011'
+
