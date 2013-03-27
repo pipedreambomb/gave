@@ -29,3 +29,9 @@ if Meteor.isServer
 			amount: 94
 			date: 'Wednesday 19th July 2011'
 
+# Export our class to Node.js when running
+# # other modules, e.g. our Mocha tests
+# #
+# # Place this at the bottom of our Model.coffee
+# # file after our Model class has been defined.
+exports.Donations = Donations unless Meteor?
