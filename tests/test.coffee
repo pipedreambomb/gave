@@ -26,6 +26,6 @@ describe 'Donations', ->
     subTotal.should.equal 579 # 123 + 456
     
   after ->
-    _.each @donations, (don) ->
-      Donations.remove { _id: don._id }
-      (Donations.find { _id: don._id }).count().should.equal 0
+    _.each @donations, (donId) ->
+      Donations.remove { _id: donId }
+      (Donations.find { _id: donId }).count().should.equal 0
