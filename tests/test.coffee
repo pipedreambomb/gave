@@ -4,19 +4,29 @@ should = chai.should()
 
 describe 'Donations', ->
 
-  beforeEach ->
-    @donId = Donations.insert
+  before ->
+    @donations = []
+    @donations[0] = Donations.insert
       charity: "test123"
       amount: 123
       date: "25th December 1993"
+    @donations[1] = Donations.insert
+      charity: "test456"
+      amount: 456
+      date: "25th December 2012"
 
   it 'should get fields of a donation', ->
-    don = Donations.findOne @donId
+    don = Donations.findOne @donations[0]
     don.charity.should.equal "test123"
     don.amount.should.equal 123
     don.date.should.equal "25th December 1993"
-  
-  afterEach ->
-    Donations.remove { _id: @donId }
-    don = Donations.findOne @donId
-    chai.assert.isUndefined don
+
+  it 'calculates subtotal correctly', ->
+    subTotal = Template.donations.SubTotal()
+    subTotal.should.equal 579 # 123 + 456
+    
+  after ->
+    _.each @donations, (don) ->
+      Donations.remove { _id: don._id }
+      don = Donations.findOne don._id
+      chai.assert.isUndefined don
