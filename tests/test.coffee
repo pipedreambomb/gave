@@ -28,5 +28,4 @@ describe 'Donations', ->
   after ->
     _.each @donations, (don) ->
       Donations.remove { _id: don._id }
-      don = Donations.findOne don._id
-      chai.assert.isUndefined don
+      (Donations.find { _id: don._id }).count().should.equal 0
