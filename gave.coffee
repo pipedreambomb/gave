@@ -4,6 +4,10 @@ Donations.removeAll = ->
 
 if Meteor.isClient
 
+  Meteor.Router.add
+    '/': 'home'
+    '/tests': 'tests'
+
   Template.donations.Donations = ->
     Donations.find()
 
