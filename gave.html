@@ -34,5 +34,26 @@
          <tr>
             <td colspan="4">Total: ${{SubTotal}}</td>
          </tr>
+       </table>
+	 <a class="btn" id="add_donation" href='/add'>Add <i class='icon-plus-sign'></i></a>
    </div>
+</template>
+
+<template name="donation">
+<form name="donation">
+    <label>
+	 Charity   
+	 <input name="charity"></input>
+    </label>
+    <label>
+	 Amount ($)   
+	 <input name="amount"></input>
+    </label>
+    <label>
+	 Date   
+	 <input name="date"></input>
+    </label>
+    <a href='#' class='btn' id='doneBtn'>Done</a>
+
+  </form>
 </template>

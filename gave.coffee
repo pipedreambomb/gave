@@ -9,6 +9,7 @@ if Meteor.isClient
   Meteor.Router.add
     '/': 'home'
     '/tests': 'tests'
+    '/add': 'donation'
 
   Template.donations.Donations = ->
     Donations.find()
@@ -22,6 +23,17 @@ if Meteor.isClient
   Template.donations.helpers
     niceDate: ->
       moment(this.date).fromNow()
+
+  Template.donation.events 
+    'click #doneBtn': (evt) ->
+      evt.preventDefault()
+      fm = document.forms["donation"]
+      newDonation =
+        charity: fm["charity"].value
+        amount: fm["amount"].value
+        date: fm["date"].value
+      Donations.insert newDonation
+      Meteor.Router.to '/'
 
 if Meteor.isServer
 
