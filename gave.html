@@ -3,10 +3,12 @@
 </head>
 
 <body>
+  <h1>Giving Counts</h1>
   {{renderPage}}
 </body>
 
 <template name="home">
+  <a href='/tests' class='btn'>Run tests</a>
   {{> donations }}
 </template>
 
@@ -26,7 +28,7 @@
             <tr>
                <td>{{charity}}</td>
                <td>${{amount}}</td>
-               <td>{{date}}</td>
+               <td>{{niceDate}}</td>
             </tr>
          {{/each}}
          <tr>
