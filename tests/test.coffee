@@ -1,33 +1,37 @@
 "use strict"
 
-# Add should function to our variables
+# Add should function to our objects
 # so we can assert stuff on them
 should = chai.should()
 
-describe 'Donations', ->
+describe 'Transactions', ->
 
   before ->
-    @donations = []
-    @donations[0] = Donations.insert
-      charity: "test123"
+    @charity = Charities.insert
+      name: 'Test charity'
+      area: 'Test'
+    @transactions = []
+    @transactions[0] = Transactions.insert
+      charity_id: @charity
       amount: 123
       date: (new Date 93, 12, 25)
-    @donations[1] = Donations.insert
-      charity: "test456"
-      amount: 456
+    @transactions[1] = Transactions.insert
+      charity_id: @charity
+      amount: 456.78
       date: (new Date 12, 12, 25)
 
-  it 'should get fields of a donation', ->
-    don = Donations.findOne @donations[0]
-    don.charity.should.equal "test123"
-    don.amount.should.equal 123
-    don.date.should.eql (new Date 93, 12, 25)
+  it 'should get fields of a transaction', ->
+    tran = Transactions.findOne @transactions[0]
+    tran.charity_id.should.equal @charity
+    tran.amount.should.equal 123
+    tran.date.should.eql (new Date 93, 12, 25)
 
   it 'calculates subtotal correctly', ->
-    subTotal = Template.donations.SubTotal()
-    subTotal.should.equal 579 # 123 + 456
+    subTotal = Template.transactions.SubTotal()
+    subTotal.should.equal 579.78 # 123 + 456.78
     
   after ->
-    _.each @donations, (donId) ->
-      Donations.remove { _id: donId }
-      (Donations.find { _id: donId }).count().should.equal 0
+    _.each @transactions, (tranId) ->
+      Transactions.remove { _id: tranId }
+      (Transactions.find { _id: tranId }).count().should.equal 0
+    Charities.remove { _id: @charity }

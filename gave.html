@@ -9,22 +9,23 @@
 
 <template name="home">
   <a href='/tests' class='btn'>Run tests</a>
-  {{> donations }}
+  <a href='#' class='btn' id='resetBtn'>Reset data</a>
+  {{> transactions }}
 </template>
 
 <template name="tests">
   {{> mochaTestReport }}
 </template>
 
-<template name="donations">
-   <div id="DonationsTable">
+<template name="transactions">
+   <div id="TransactionsTable">
       <table>
          <tr>
             <th>Charity</th>
             <th>Amount</th>
             <th>Date</th>
          </tr>
-         {{#each Donations}}
+         {{#each Transactions}}
             <tr>
                <td>{{charity}}</td>
                <td>${{amount}}</td>
@@ -35,15 +36,19 @@
             <td colspan="4">Total: ${{SubTotal}}</td>
          </tr>
        </table>
-	 <a class="btn" id="add_donation" href='/add'>Add <i class='icon-plus-sign'></i></a>
+	 <a class="btn" id="add_transaction" href='/add'>Add <i class='icon-plus-sign'></i></a>
    </div>
 </template>
 
-<template name="donation">
-<form name="donation">
+<template name="transaction">
+<form name="transaction">
     <label>
 	 Charity   
-	 <input name="charity"></input>
+	 <select name="charity">
+	 {{#each Charities}}
+	 	<option value={{_id}}>{{name}}</option>
+	 {{/each}}
+	 </select>
     </label>
     <label>
 	 Amount ($)   

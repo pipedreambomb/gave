@@ -1,52 +1,79 @@
 "use strict"
 
-Donations = new Meteor.Collection("Donations")
-Donations.removeAll = ->
-  @remove({})
+Transactions = new Meteor.Collection("Transactions")
+Charities = new Meteor.Collection("Charities")
 
 if Meteor.isClient
 
   Meteor.Router.add
     '/': 'home'
     '/tests': 'tests'
-    '/add': 'donation'
+    '/add': 'transaction'
 
-  Template.donations.Donations = ->
-    Donations.find()
+  Template.transactions.Transactions = ->
+    Transactions.find()
 
-  Template.donations.SubTotal = ->
+  Template.transaction.Charities = ->
+    Charities.find()
+
+  Template.transactions.SubTotal = ->
     subtotal = 0
-    Donations.find().forEach (d) ->
-      subtotal += d.amount
+    Transactions.find().forEach (d) ->
+      subtotal += parseFloat d.amount
     subtotal
 
-  Template.donations.helpers
+  Template.transactions.helpers
     niceDate: ->
-      moment(this.date).fromNow()
+      moment(this.date)?.fromNow()
+    charity: ->
+      Charities.findOne(@charity_id)?.name
 
-  Template.donation.events 
+  Template.home.events
+    'click #resetBtn': (evt) ->
+      evt.preventDefault()
+      removeAll = (collection) ->
+        collection.find().forEach (i) ->
+          collection.remove i._id
+      removeAll(Charities)
+      removeAll(Transactions)
+      populateData()
+      alert "Data is now reset"
+
+  Template.transaction.events
     'click #doneBtn': (evt) ->
       evt.preventDefault()
-      fm = document.forms["donation"]
-      newDonation =
-        charity: fm["charity"].value
+      fm = document.forms["transaction"]
+      newTransaction =
+        charity_id: fm["charity"].value
         amount: fm["amount"].value
         date: fm["date"].value
-      Donations.insert newDonation
+      Transactions.insert newTransaction
       Meteor.Router.to '/'
 
 if Meteor.isServer
 
-        Meteor.startup ->
+  Meteor.startup ->
 
-  Donations.removeAll()
+    if 0 == Transactions.find().count() ==
+        Charities.find().count()
+      populateData()
 
-  Donations.insert
-    charity: "Oxfam"
+populateData = ->
+  console.log("no data, populating")
+
+  charityId1 = Charities.insert
+    name: 'Against Malaria Foundation'
+    category: 'Health'
+  charityId2 = Charities.insert
+    name: 'Give Direct'
+    category: 'Development'
+
+  Transactions.insert
+    charity_id: charityId1
     amount: 19
     date: (new Date 93, 12, 25)
 
-  Donations.insert
-    charity: 'JRS'
+  Transactions.insert
+    charity_id: charityId2
     amount: 94
     date: (new Date 2011, 7, 19)
