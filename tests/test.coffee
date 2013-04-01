@@ -7,31 +7,36 @@ should = chai.should()
 describe 'Transactions', ->
 
   before ->
-    @charity = Charities.insert
-      name: 'Test charity'
+    @preSubTotal = Template.transactions.SubTotal()
+    @realCauses = gave.Causes
+    @realTransactions = gave.Transactions
+
+    gave.Causes = new Meteor.Collection null
+    gave.Transactions = new Meteor.Collection null
+    @cause = gave.Causes.insert
+      name: 'Test cause'
       area: 'Test'
     @transactions = []
-    @transactions[0] = Transactions.insert
-      charity_id: @charity
+    @transactions[0] = gave.Transactions.insert
+      cause_id: @cause
       amount: 123
       date: (new Date 93, 12, 25)
-    @transactions[1] = Transactions.insert
-      charity_id: @charity
+    @transactions[1] = gave.Transactions.insert
+      cause_id: @cause
       amount: 456.78
       date: (new Date 12, 12, 25)
 
   it 'should get fields of a transaction', ->
-    tran = Transactions.findOne @transactions[0]
-    tran.charity_id.should.equal @charity
+    tran = gave.Transactions.findOne @transactions[0]
+    tran.cause_id.should.equal @cause
     tran.amount.should.equal 123
     tran.date.should.eql (new Date 93, 12, 25)
 
   it 'calculates subtotal correctly', ->
     subTotal = Template.transactions.SubTotal()
     subTotal.should.equal 579.78 # 123 + 456.78
-    
+
   after ->
-    _.each @transactions, (tranId) ->
-      Transactions.remove { _id: tranId }
-      (Transactions.find { _id: tranId }).count().should.equal 0
-    Charities.remove { _id: @charity }
+    gave.Transactions = @realTransactions
+    gave.Causes = @realCauses
+    Template.transactions.SubTotal().should.equal @preSubTotal

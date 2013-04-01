@@ -1,7 +1,8 @@
 "use strict"
 
-Transactions = new Meteor.Collection("Transactions")
-Charities = new Meteor.Collection("Charities")
+gave =
+  Transactions: new Meteor.Collection("Transactions")
+  Causes: new Meteor.Collection("Causes")
 
 if Meteor.isClient
 
@@ -11,14 +12,14 @@ if Meteor.isClient
     '/add': 'transaction'
 
   Template.transactions.Transactions = ->
-    Transactions.find()
+    gave.Transactions.find()
 
-  Template.transaction.Charities = ->
-    Charities.find()
+  Template.transaction.Causes = ->
+    gave.Causes.find()
 
   Template.transactions.SubTotal = ->
     subtotal = 0
-    Transactions.find().forEach (d) ->
+    gave.Transactions.find().forEach (d) ->
       subtotal += parseFloat d.amount
     subtotal
 
@@ -26,7 +27,7 @@ if Meteor.isClient
     niceDate: ->
       moment(this.date)?.fromNow()
     charity: ->
-      Charities.findOne(@charity_id)?.name
+      gave.Causes.findOne(@charity_id)?.name
 
   Template.home.events
     'click #resetBtn': (evt) ->
@@ -34,8 +35,8 @@ if Meteor.isClient
       removeAll = (collection) ->
         collection.find().forEach (i) ->
           collection.remove i._id
-      removeAll(Charities)
-      removeAll(Transactions)
+      removeAll(gave.Causes)
+      removeAll(gave.Transactions)
       populateData()
       alert "Data is now reset"
 
@@ -47,33 +48,33 @@ if Meteor.isClient
         charity_id: fm["charity"].value
         amount: fm["amount"].value
         date: fm["date"].value
-      Transactions.insert newTransaction
+      gave.Transactions.insert newTransaction
       Meteor.Router.to '/'
 
 if Meteor.isServer
 
   Meteor.startup ->
 
-    if 0 == Transactions.find().count() ==
-        Charities.find().count()
+    if 0 == gave.Transactions.find().count() ==
+        gave.Causes.find().count()
       populateData()
 
 populateData = ->
   console.log("no data, populating")
 
-  charityId1 = Charities.insert
+  charityId1 = gave.Causes.insert
     name: 'Against Malaria Foundation'
     category: 'Health'
-  charityId2 = Charities.insert
+  charityId2 = gave.Causes.insert
     name: 'Give Direct'
     category: 'Development'
 
-  Transactions.insert
+  gave.Transactions.insert
     charity_id: charityId1
     amount: 19
     date: (new Date 93, 12, 25)
 
-  Transactions.insert
+  gave.Transactions.insert
     charity_id: charityId2
     amount: 94
     date: (new Date 2011, 7, 19)
