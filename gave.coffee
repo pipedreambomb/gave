@@ -26,8 +26,8 @@ if Meteor.isClient
   Template.transactions.helpers
     niceDate: ->
       moment(this.date)?.fromNow()
-    charity: ->
-      gave.Causes.findOne(@charity_id)?.name
+    cause: ->
+      gave.Causes.findOne(@cause_id)?.name
 
   Template.home.events
     'click #resetBtn': (evt) ->
@@ -45,11 +45,28 @@ if Meteor.isClient
       evt.preventDefault()
       fm = document.forms["transaction"]
       newTransaction =
-        charity_id: fm["charity"].value
+        cause_id: fm["cause"].value
         amount: fm["amount"].value
         date: fm["date"].value
       gave.Transactions.insert newTransaction
       Meteor.Router.to '/'
+
+  Template.causes.Causes = ->
+    gave.Causes.find()
+
+  Template.causes.helpers
+    total: ->
+      total = 0
+      debugger
+      trans = gave.Transactions.find({ cause_id: this._id }).forEach (tran) ->
+        total += parseFloat tran.amount
+      total
+
+  Template.causes.SubTotal = ->
+    subtotal = 0
+    gave.Transactions.find().forEach (d) ->
+      subtotal += parseFloat d.amount
+    subtotal
 
 if Meteor.isServer
 
@@ -62,19 +79,24 @@ if Meteor.isServer
 populateData = ->
   console.log("no data, populating")
 
-  charityId1 = gave.Causes.insert
+  causeId1 = gave.Causes.insert
     name: 'Against Malaria Foundation'
     category: 'Health'
-  charityId2 = gave.Causes.insert
+  causeId2 = gave.Causes.insert
     name: 'Give Direct'
     category: 'Development'
 
   gave.Transactions.insert
-    charity_id: charityId1
+    cause_id: causeId1
     amount: 19
     date: (new Date 93, 12, 25)
 
   gave.Transactions.insert
-    charity_id: charityId2
+    cause_id: causeId2
+    amount: 6
+    date: (new Date 2010, 2, 19)
+
+  gave.Transactions.insert
+    cause_id: causeId2
     amount: 94
     date: (new Date 2011, 7, 19)

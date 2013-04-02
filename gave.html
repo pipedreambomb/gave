@@ -11,6 +11,7 @@
   <a href='/tests' class='btn'>Run tests</a>
   <a href='#' class='btn' id='resetBtn'>Reset data</a>
   {{> transactions }}
+  {{> causes }}
 </template>
 
 <template name="tests">
@@ -22,13 +23,13 @@
    <div id="TransactionsTable">
       <table>
          <tr>
-            <th>Charity</th>
+            <th>Cause</th>
             <th>Amount</th>
             <th>Date</th>
          </tr>
          {{#each Transactions}}
             <tr>
-               <td>{{charity}}</td>
+               <td>{{cause}}</td>
                <td>${{amount}}</td>
                <td>{{niceDate}}</td>
             </tr>
@@ -44,9 +45,9 @@
 <template name="transaction">
 <form name="transaction">
     <label>
-	 Charity   
-	 <select name="charity">
-	 {{#each Charities}}
+	 Cause   
+	 <select name="cause">
+	 {{#each Causes}}
 	 	<option value={{_id}}>{{name}}</option>
 	 {{/each}}
 	 </select>
@@ -62,4 +63,22 @@
     <a href='#' class='btn' id='doneBtn'>Done</a>
 
   </form>
+</template>
+
+<template name="causes">
+<table>
+	<tr>
+		<th>Cause</th>
+		<th>Total</th>
+	</tr>
+	{{#each Causes}}
+	<tr>
+		<td>{{name}}</td>
+		<td>${{total}}</td>
+	</tr>
+	{{/each}}
+         <tr>
+            <td colspan="2">Total: ${{SubTotal}}</td>
+         </tr>
+</table>
 </template>
