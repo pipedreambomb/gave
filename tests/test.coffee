@@ -51,6 +51,10 @@ describe 'Giving Counts', ->
       subTotal = Template.transactions.SubTotal()
       subTotal.should.equal 1579.78 # 123 + 456.78 + 1000
 
+    it 'displays name of charity', ->
+      frag = Meteor.render Template.transactions
+      (frag.querySelector "td").innerHTML.should.have.string "Test cause"
+
   describe 'Causes', ->
 
     it 'calculates totals per cause', ->
