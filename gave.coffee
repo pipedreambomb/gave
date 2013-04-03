@@ -74,6 +74,8 @@ if Meteor.isClient
     $('.datepicker').datepicker()
 
   Template.transaction.helpers
+    shortDate: ->
+      moment(this.date).format('L')
     selected: ->
       this._id == Template.transaction.Transaction().cause_id
 
