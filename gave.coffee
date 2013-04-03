@@ -4,6 +4,12 @@ gave =
   Transactions: new Meteor.Collection("Transactions")
   Causes: new Meteor.Collection("Causes")
 
+sum = (collectionIterator, property) ->
+    total = 0
+    collectionIterator.forEach (i) ->
+      total += parseFloat i[property]
+    total
+
 if Meteor.isClient
 
   Meteor.Router.add
@@ -15,10 +21,7 @@ if Meteor.isClient
     gave.Transactions.find()
 
   Template.transactions.SubTotal = ->
-    subtotal = 0
-    gave.Transactions.find().forEach (d) ->
-      subtotal += parseFloat d.amount
-    subtotal
+    sum gave.Transactions.find(), "amount"
 
   Template.transactions.helpers
     niceDate: ->
@@ -56,36 +59,20 @@ if Meteor.isClient
 
   Template.causes.helpers
     total: ->
-      total = 0
-      trans = gave.Transactions.find({ cause_id: this._id }).forEach (tran) ->
-        total += parseFloat tran.amount
-      total
+      sum gave.Transactions.find({ cause_id: this._id }), "amount"
 
   Template.causes.SubTotal = ->
-    subtotal = 0
-    gave.Transactions.find().forEach (d) ->
-      subtotal += parseFloat d.amount
-    subtotal
-
-  Template.effects.helpers
-    total: ->
-      total = 0
-      trans = gave.Transactions.find({ cause_id: this._id }).forEach (tran) ->
-        total += parseFloat tran.amount
-      total
+    sum gave.Transactions.find(), "amount"
 
   Template.effects.Causes = ->
     gave.Causes.find().map (cause) ->
       _.extend cause,
         Effects: ->
-          totalDonated = 0
-          trans = gave.Transactions.find({ cause_id: this._id }).forEach (tran) ->
-            totalDonated += parseFloat tran.amount
+          totalDonated = sum gave.Transactions.find({ cause_id: this._id }), "amount"
           res = []
-          per = this.effectPer
+          self = this
           _.each this.effects, (val, key) ->
-            debugger
-            res.push {unit: key, totalEffects: totalDonated * val / per}
+            res.push {unit: key, totalEffects: totalDonated * val / self.effectPer}
           res
 
   Template.effects.helpers = Template.causes.helpers
