@@ -2,6 +2,7 @@
   "packages": {
     "mocha-web": {},
     "router": {},
-    "moment": {}
+    "moment": {},
+    "bootstrap-datepicker": {}
   }
 }

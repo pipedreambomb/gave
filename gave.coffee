@@ -54,6 +54,9 @@ if Meteor.isClient
       gave.Transactions.insert newTransaction
       Meteor.Router.to '/'
 
+  Template.transaction.rendered = ->
+    $('.datepicker').datepicker()
+
   Template.causes.Causes = ->
     gave.Causes.find()
 
