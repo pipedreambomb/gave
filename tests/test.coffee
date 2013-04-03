@@ -10,9 +10,17 @@ insertFixtures = ->
   @causes[0] = gave.Causes.insert
     name: 'Test cause'
     area: 'Test'
+    effectPer: 100
+    effects:
+      "Lives saved": 5
+      "Tests run": 20
   @causes[1] = gave.Causes.insert
     name: 'Test cause 2'
     area: 'Test'
+    effectPer: 100
+    effects:
+      "Lives saved": 1
+      "Tests run": 2
   @transactions = []
   @transactions[0] = gave.Transactions.insert
     cause_id: @causes[0]
@@ -66,6 +74,13 @@ describe 'Giving Counts', ->
       tds[2].innerHTML.should.have.string "Test cause 2"
       tds[3].innerHTML.should.have.string "1000"
       tds[4].innerHTML.should.have.string "Total: $1579.78"
+
+    it 'calculates effects', ->
+      frag = Meteor.render Template.effects
+      uls = frag.querySelectorAll "ul"
+      lis = uls[1].querySelectorAll "li" # use second cause as math is easier
+      lis[0].innerHTML.should.have.string "Lives saved: 10"
+      lis[1].innerHTML.should.have.string "Tests run: 20"
 
   after ->
     gave.Transactions = @realTransactions

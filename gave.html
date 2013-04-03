@@ -12,6 +12,7 @@
   <a href='#' class='btn' id='resetBtn'>Reset data</a>
   {{> transactions }}
   {{> causes }}
+  {{> effects }}
 </template>
 
 <template name="tests">
@@ -81,4 +82,15 @@
             <td colspan="2">Total: ${{SubTotal}}</td>
          </tr>
 </table>
+</template>
+
+<template name="effects">
+	{{#each Causes}}
+	<h5>{{name}}</h5>
+	<ul>
+		{{#each Effects }}
+		<li>{{unit}}: {{totalEffects}}</li>
+		{{/each}}
+	</ul>
+	{{/each}}
 </template>

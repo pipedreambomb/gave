@@ -14,9 +14,6 @@ if Meteor.isClient
   Template.transactions.Transactions = ->
     gave.Transactions.find()
 
-  Template.transaction.Causes = ->
-    gave.Causes.find()
-
   Template.transactions.SubTotal = ->
     subtotal = 0
     gave.Transactions.find().forEach (d) ->
@@ -40,6 +37,9 @@ if Meteor.isClient
       populateData()
       alert "Data is now reset"
 
+  Template.transaction.Causes = ->
+    gave.Causes.find()
+
   Template.transaction.events
     'click #doneBtn': (evt) ->
       evt.preventDefault()
@@ -57,7 +57,6 @@ if Meteor.isClient
   Template.causes.helpers
     total: ->
       total = 0
-      debugger
       trans = gave.Transactions.find({ cause_id: this._id }).forEach (tran) ->
         total += parseFloat tran.amount
       total
@@ -67,6 +66,29 @@ if Meteor.isClient
     gave.Transactions.find().forEach (d) ->
       subtotal += parseFloat d.amount
     subtotal
+
+  Template.effects.helpers
+    total: ->
+      total = 0
+      trans = gave.Transactions.find({ cause_id: this._id }).forEach (tran) ->
+        total += parseFloat tran.amount
+      total
+
+  Template.effects.Causes = ->
+    gave.Causes.find().map (cause) ->
+      _.extend cause,
+        Effects: ->
+          totalDonated = 0
+          trans = gave.Transactions.find({ cause_id: this._id }).forEach (tran) ->
+            totalDonated += parseFloat tran.amount
+          res = []
+          per = this.effectPer
+          _.each this.effects, (val, key) ->
+            debugger
+            res.push {unit: key, totalEffects: totalDonated * val / per}
+          res
+
+  Template.effects.helpers = Template.causes.helpers
 
 if Meteor.isServer
 
@@ -82,9 +104,17 @@ populateData = ->
   causeId1 = gave.Causes.insert
     name: 'Against Malaria Foundation'
     category: 'Health'
+    effectPer: 100
+    effects:
+      "Lives saved": 5
+      "Tests run": 20
   causeId2 = gave.Causes.insert
     name: 'Give Direct'
     category: 'Development'
+    effectPer: 100
+    effects:
+      "Lives saved": 1
+      "Tests run": 2
 
   gave.Transactions.insert
     cause_id: causeId1
