@@ -3,6 +3,7 @@
     "mocha-web": {},
     "router": {},
     "moment": {},
-    "bootstrap-datepicker": {}
+    "bootstrap-datepicker": {},
+    "bootboxjs": {}
   }
 }

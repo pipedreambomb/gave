@@ -15,7 +15,12 @@ if Meteor.isClient
   Meteor.Router.add
     '/': 'home'
     '/tests': 'tests'
-    '/add': 'transaction'
+    '/add': ->
+      Session.set "currentTransactionId", undefined
+      'transaction'
+    '/edit/:id': (id) ->
+      Session.set "currentTransactionId", id
+      'transaction'
 
   Template.transactions.Transactions = ->
     gave.Transactions.find()
@@ -39,6 +44,12 @@ if Meteor.isClient
       removeAll(gave.Transactions)
       populateData()
       alert "Data is now reset"
+    'click .tran-del': (evt) ->
+      evt.preventDefault()
+      id = evt.target.getAttribute("data-cause-id")
+      bootbox.confirm "Are you sure you want to delete this transaction?", (confirmation) ->
+        if confirmation
+          gave.Transactions.remove { _id: id }
 
   Template.transaction.Causes = ->
     gave.Causes.find()
@@ -51,11 +62,19 @@ if Meteor.isClient
         cause_id: fm["cause"].value
         amount: fm["amount"].value
         date: fm["date"].value
-      gave.Transactions.insert newTransaction
+      id = Session.get "currentTransactionId"
+      if id
+        gave.Transactions.update { _id: id }, { $set: newTransaction }
+      else
+        gave.Transactions.insert newTransaction
       Meteor.Router.to '/'
 
   Template.transaction.rendered = ->
     $('.datepicker').datepicker()
+
+  Template.transaction.Transaction = ->
+    id = Session.get "currentTransactionId"
+    gave.Transactions.findOne { _id: id } if id
 
   Template.causes.Causes = ->
     gave.Causes.find()

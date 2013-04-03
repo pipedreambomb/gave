@@ -27,12 +27,17 @@
             <th>Cause</th>
             <th>Amount</th>
             <th>Date</th>
+            <th>Actions</th>
          </tr>
          {{#each Transactions}}
             <tr>
                <td>{{cause}}</td>
                <td>${{amount}}</td>
                <td>{{niceDate}}</td>
+	       <td>
+		       <a class='btn btn-primary' href='/edit/{{_id}}'>Edit</a> 
+		       <a class='btn btn-danger tran-del' href='#' data-cause-id="{{_id}}">Delete</a> 
+	       </td>
             </tr>
          {{/each}}
          <tr>
@@ -54,12 +59,14 @@
 	 </select>
     </label>
     <label>
+	 {{#with Transaction}}
 	 Amount ($)   
-	 <input name="amount"></input>
+	 <input name="amount" value="{{amount}}"></input>
     </label>
     <label>
 	 Date   
-	 <input name="date" class="datepicker"></input>
+	 <input name="date" class="datepicker" value="{{date}}"></input>
+	 {{/with}}
     </label>
     <a href='#' class='btn' id='doneBtn'>Done</a>
 
