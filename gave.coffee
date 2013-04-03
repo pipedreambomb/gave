@@ -70,7 +70,12 @@ if Meteor.isClient
       Meteor.Router.to '/'
 
   Template.transaction.rendered = ->
+    # Set up the datepicker ui object
     $('.datepicker').datepicker()
+
+  Template.transaction.helpers
+    selected: ->
+      this._id == Template.transaction.Transaction().cause_id
 
   Template.transaction.Transaction = ->
     id = Session.get "currentTransactionId"
