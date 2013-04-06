@@ -15,4 +15,4 @@ Template.causes.rendered = ->
     total = sum gave.Transactions.find({ cause_id: cause._id }), "amount"
     { value: total, color: colors.shift() }
 
-  myNewChart = new Chart(ctx).Pie data
+  new Chart(ctx).Pie data
