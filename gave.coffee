@@ -23,14 +23,14 @@ if Meteor.isClient
       'transaction'
 
   Template.transactions.Transactions = ->
-    gave.Transactions.find()
+    gave.Transactions.find {}, { sort: {date: -1} }
 
   Template.transactions.SubTotal = ->
     sum gave.Transactions.find(), "amount"
 
   Template.transactions.helpers
     niceDate: ->
-      moment(this.date)?.fromNow()
+      moment(this.date).fromNow()
     cause: ->
       gave.Causes.findOne(@cause_id)?.name
 
@@ -61,7 +61,7 @@ if Meteor.isClient
       newTransaction =
         cause_id: fm["cause"].value
         amount: fm["amount"].value
-        date: fm["date"].value
+        date: moment(fm["date"].value).toDate() #parse string as date
       id = Session.get "currentTransactionId"
       if id
         gave.Transactions.update { _id: id }, { $set: newTransaction }
@@ -75,9 +75,9 @@ if Meteor.isClient
 
   Template.transaction.helpers
     shortDate: ->
-      moment(this.date).format('L')
+      moment(this.date).format('L') if this
     selected: ->
-      this._id == Template.transaction.Transaction().cause_id
+      this._id == Template.transaction.Transaction()?.cause_id
 
   Template.transaction.Transaction = ->
     id = Session.get "currentTransactionId"
