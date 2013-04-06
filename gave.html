@@ -10,8 +10,11 @@
 <template name="home">
   <a href='/tests' class='btn'>Run tests</a>
   <a href='#' class='btn' id='resetBtn'>Reset data</a>
+  <h2>Transactions</h2>
   {{> transactions }}
+  <h2>Causes</h2>
   {{> causes }}
+  <h2>Effects</h2>
   {{> effects }}
 </template>
 
@@ -74,6 +77,7 @@
 </template>
 
 <template name="causes">
+<canvas id="myChart"></canvas>
 <table>
 	<tr>
 		<th>Cause</th>

@@ -86,12 +86,26 @@ if Meteor.isClient
   Template.causes.Causes = ->
     gave.Causes.find()
 
+  Template.causes.SubTotal = ->
+    sum gave.Transactions.find(), "amount"
+
   Template.causes.helpers
     total: ->
       sum gave.Transactions.find({ cause_id: this._id }), "amount"
 
-  Template.causes.SubTotal = ->
-    sum gave.Transactions.find(), "amount"
+  Template.causes.rendered = ->
+    ctx = $("#myChart").get(0).getContext("2d")
+    data = [
+      { value: 30, color:"#F38630" }
+      { value : 50, color : "#E0E4CC" }
+      { value : 100, color : "#69D2E7" }
+    ]
+    colors = ["#F38630", "#E0E4CC", "#69D2E7"]
+    data2 = gave.Causes.find().map (cause) ->
+      total = sum gave.Transactions.find({ cause_id: cause._id }), "amount"
+      { value: total, color: colors.shift() }
+
+    myNewChart = new Chart(ctx).Pie data2
 
   Template.effects.Causes = ->
     gave.Causes.find().map (cause) ->

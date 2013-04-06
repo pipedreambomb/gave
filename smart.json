@@ -4,6 +4,7 @@
     "router": {},
     "moment": {},
     "bootstrap-datepicker": {},
-    "bootboxjs": {}
+    "bootboxjs": {},
+    "chartjs": {}
   }
 }
