@@ -12,7 +12,6 @@
 
 <template name="home">
   <a href='/tests' class='btn'>Run tests</a>
-  <a href='#' class='btn' id='resetBtn'>Reset data</a>
   <h2>Transactions</h2>
   {{> transactions }}
   <h2>Causes</h2>
@@ -73,7 +72,7 @@
 	 Cause   
 	 <select id="cause-select" name="cause">
 	 {{#each Causes}}
-	 <option value={{_id}} {{#if selected}}selected{{/if}}>{{name}}</option>
+		 <option value={{_id}} {{#if selected}}selected{{/if}}>{{name}}</option>
 	 {{/each}}
 	 </select>
     </label>
