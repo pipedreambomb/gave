@@ -24,7 +24,7 @@ _.extend Template.transactions,
     gave.Transactions.find {}, { sort: {date: -1} }
 
   SubTotal: ->
-    sum gave.Transactions.find(), "amount"
+    gave.sum gave.Transactions.find(), "amount"
 
   created: ->
    
