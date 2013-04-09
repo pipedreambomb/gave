@@ -34,10 +34,40 @@ insertFixtures = ->
     cause_id: @causeIds[1]
     amount: 1000.00
     date: (new Date 2013, 1, 5)
+  @userEmail = "testuser1234@example.com"
+  @userPassword = "test1234"
 
 describe 'Giving Counts', ->
 
-  before ->
+  insertTransaction = (tran, callback) ->
+    Meteor.call "insertTransaction", tran, @causeIds, callback
+
+  insertAndExpectError = (badTrans, presentInDetails, done) ->
+    insertTransaction.call this, badTrans, (error, result) ->
+      should.exist error
+      error.details.should.contain presentInDetails
+      done()
+
+  loginAsTestUser = (done) ->
+    userEmail = @userEmail
+    userPassword = @userPassword
+    Meteor.logout()
+    Meteor.loginWithPassword userEmail, userPassword, (error) ->
+      if error?
+        Accounts.createUser
+          username: userEmail
+          email: userEmail
+          password: userPassword,
+          (error) ->
+            throw error if error?
+            Meteor.loginWithPassword userEmail, userPassword, (error) ->
+              throw error if error?
+              done()
+       else
+         done()
+
+  before (done) ->
+    this.timeout 10000 #extend default 2 second timeout
     @preSubTotal = Template.transactions.SubTotal()
     @realCauses = gave.Causes
     @realTransactions = gave.Transactions
@@ -45,7 +75,16 @@ describe 'Giving Counts', ->
     gave.Causes = new Meteor.Collection null
     gave.Transactions = new Meteor.Collection null
 
-    insertFixtures.apply(this)
+    insertFixtures.call this
+
+    loginAsTestUser.call this, done
+
+  describe 'User', ->
+
+    it 'is logged in as test user', ->
+      user = Meteor.user()
+      user.emails[0].address.should.contain @userEmail
+      user.username.should.contain @userEmail
 
   describe 'Transactions', ->
 
@@ -63,20 +102,37 @@ describe 'Giving Counts', ->
       frag = Meteor.render Template.transactions
       (frag.querySelector "td").innerHTML.should.have.string "Test cause"
       
-    it 'updates transactions'
+    it 'updates transactions', (done) ->
+      causeIds = @causeIds
+      tran1 =
+        amount:1
+        cause_id: causeIds[0]
+        date: new Date 2010, 10, 10
+        owner: Meteor.userId()
+      tran2 =
+        amount:2
+        cause_id: causeIds[1]
+        date: new Date 2011, 11, 11
+      insertTransaction.call this, tran1, (error, result) ->
+        done(error) if error?
+        result.should.be.a 'string'
+        result.should.not.be.empty
+        tran2._id = result
+        Meteor.call "updateTransaction", tran2, (error2, result2) ->
+          done(error2) if error2?
+          result2.amount.should.equal 2
+          result2.cause_id.should.equal causeIds[1]
+          result2.date.getFullYear().should.equal 2011
+          result2.date.getMonth().should.equal 11
+          result2.date.getDate().should.equal 11
+          done()
+
+    it 'does not update another user\'s transaction'
 
   describe 'Transaction validation', ->
 
-    insertTransaction = (tran, callback) ->
-      Meteor.call "insertTransaction", tran, @causeIds, callback
-
-    insertAndExpectError = (badTrans, presentInDetails, done) ->
-      insertTransaction.call this, badTrans, (error, result) ->
-        should.exist error
-        error.details.should.contain presentInDetails
-        done()
-
-    it 'inserts a new transaction', ->
+    it 'inserts a new transaction', (done) ->
+      debugger
       goodTrans =
         amount: 10
         cause_id: @causeIds[0]
@@ -124,7 +180,7 @@ describe 'Giving Counts', ->
         amount: "jr92ede2"
         cause_id: @causeIds[0]
         date: new Date()
-        ownerId: Meteor.userId
+        ownerId: Meteor.userId()
       insertTransaction.call this, badTrans, (error, result) ->
         should.exist error
         error.details.should.contain "NaN"
@@ -135,7 +191,7 @@ describe 'Giving Counts', ->
         amount: 10
         cause_id: "invalid cause id"
         date: new Date()
-        ownerId: Meteor.userId
+        ownerId: Meteor.userId()
       insertTransaction.call this, badTrans, (error, result) ->
         should.exist error
         error.error.should.equal 404
@@ -177,3 +233,4 @@ describe 'Giving Counts', ->
     gave.Transactions = @realTransactions
     gave.Causes = @realCauses
     Template.transactions.SubTotal().should.equal @preSubTotal
+    Meteor.logout()
