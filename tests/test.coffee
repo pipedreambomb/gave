@@ -69,7 +69,8 @@ describe 'Giving Counts', ->
 
   before ->
     this.timeout 10000 #extend default 2 second timeout
-    @preSubTotal = Template.transactions.SubTotal()
+    frag = Meteor.render Template.transactions
+    @preSubTotal = (frag.querySelector ".Transactions_subtotal").innerHTML
     @realCauses = gave.Causes
     @realTransactions = gave.Transactions
 
@@ -131,7 +132,6 @@ describe 'Giving Counts', ->
           done()
 
     it 'does not update another user\'s transaction', (done) ->
-      this.timeout 5000
       testUserEmail = @userEmail
       testUserPassword = @userPassword
       tran =
@@ -148,6 +148,42 @@ describe 'Giving Counts', ->
           Meteor.call "updateTransaction", tran, (error, result) ->
             should.exist error
             error.details.should.contain "Cannot change another user's transactions"
+            done()
+
+    it 'removes own transactions', (done) ->
+      testUserEmail = @userEmail
+      testUserPassword = @userPassword
+      tran =
+        amount: 5
+        date: new Date()
+        cause_id: @causeIds[0]
+        owner: Meteor.userId()
+      insertTransaction.call this, tran, (error, newId) ->
+        done(error) if error?
+        newId.should.be.a 'string'
+        
+        Meteor.call "removeTransaction", newId, (error2, result2) ->
+          done(error2) if error2?
+          should.exist result2
+          result2.should.be.a 'string'
+          result2.should.contain 'removed'
+          done()
+
+    it 'does not remove other users\' transactions', (done) ->
+      tran =
+        amount: 5
+        date: new Date()
+        cause_id: @causeIds[0]
+        owner: Meteor.userId()
+      insertTransaction.call this, tran, (error, newId) ->
+        done(error) if error?
+        newId.should.be.a 'string'
+        
+        login "other-user@example.com", "passwordXXXXX", ->
+          Meteor.call "removeTransaction", newId, (error2, result2) ->
+            should.exist error2
+            error2.error.should.equal 403
+            error2.details.should.contain "Cannot remove another user's transactions"
             done()
         
   describe 'Transaction validation', ->
@@ -250,7 +286,6 @@ describe 'Giving Counts', ->
       lis[1].innerHTML.should.have.string "Tests run: 20"
 
   after ->
+    Meteor.logout()
     gave.Transactions = @realTransactions
     gave.Causes = @realCauses
-    Template.transactions.SubTotal().should.equal @preSubTotal
-    Meteor.logout()

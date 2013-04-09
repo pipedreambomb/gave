@@ -17,7 +17,6 @@ Meteor.methods
 
   updateTransaction: (tran) ->
     if tran.owner != Meteor.userId()
-      console.log tran.owner + " != " + Meteor.userId()
       throw new Meteor.Error 403, "Forbidden", "Cannot change another user's transactions"
     tranId = tran._id
     # Don't want to update _id or owner
@@ -30,7 +29,12 @@ Meteor.methods
     gave.Transactions.findOne tranId
 
   removeTransaction: (tranId) ->
+    tran = gave.Transactions.findOne tranId
+    if tran.owner != Meteor.userId()
+      throw new Meteor.Error 403, "Forbidden", "Cannot remove another user's transactions"
     gave.Transactions.remove tranId
+    # Return confirmation
+    "Transaction removed"
 
 validateTransaction = (tran, causeIds) ->
   # This bit is to allow validation against a list of cause_ids,
