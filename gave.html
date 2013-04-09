@@ -67,6 +67,9 @@
 </template>
 
 <template name="transaction">
+{{#if TransactionError}}
+<h2 color=red>{{TransactionError}}</h2>
+{{/if}}
 <form name="transaction">
     <label>
 	 Cause   

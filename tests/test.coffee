@@ -122,7 +122,7 @@ describe 'Giving Counts', ->
         result.should.be.a 'string'
         result.should.not.be.empty
         tran2._id = result
-        Meteor.call "updateTransaction", tran2, (error2, result2) ->
+        Meteor.call "updateTransaction", tran2, causeIds, (error2, result2) ->
           done(error2) if error2?
           result2.amount.should.equal 2
           result2.cause_id.should.equal causeIds[1]
@@ -132,6 +132,7 @@ describe 'Giving Counts', ->
           done()
 
     it 'does not update another user\'s transaction', (done) ->
+      causeIds = @causeIds
       testUserEmail = @userEmail
       testUserPassword = @userPassword
       tran =
@@ -145,7 +146,7 @@ describe 'Giving Counts', ->
         tran._id = result
         tran.amount = 10
         login "other-user@example.com", "passwordXXXXX", ->
-          Meteor.call "updateTransaction", tran, (error, result) ->
+          Meteor.call "updateTransaction", tran, causeIds, (error, result) ->
             should.exist error
             error.details.should.contain "Cannot change another user's transactions"
             done()

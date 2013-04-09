@@ -12,21 +12,22 @@ Meteor.publish "all-causes", ->
 
 Meteor.methods
   insertTransaction: (tran, causeIds) ->
-    if validateTransaction tran, causeIds
+    if validateTransaction tran, causeIds, false
       gave.Transactions.insert tran
 
-  updateTransaction: (tran) ->
+  updateTransaction: (tran, causeIds) ->
     if tran.owner != Meteor.userId()
       throw new Meteor.Error 403, "Forbidden", "Cannot change another user's transactions"
-    tranId = tran._id
-    # Don't want to update _id or owner
-    delete tran._id
-    delete tran.owner
-    mongoModifier = {$set: tran}
-    console.log (EJSON.stringify mongoModifier)
-    gave.Transactions.update tranId, mongoModifier
-    # Return updated Transaction
-    gave.Transactions.findOne tranId
+    if validateTransaction tran, causeIds, true
+      tranId = tran._id
+      # Don't want to update _id or owner
+      delete tran._id
+      delete tran.owner
+      mongoModifier = {$set: tran}
+      console.log (EJSON.stringify mongoModifier)
+      gave.Transactions.update tranId, mongoModifier
+      # Return updated Transaction
+      gave.Transactions.findOne tranId
 
   removeTransaction: (tranId) ->
     tran = gave.Transactions.findOne tranId
@@ -36,7 +37,7 @@ Meteor.methods
     # Return confirmation
     "Transaction removed"
 
-validateTransaction = (tran, causeIds) ->
+validateTransaction = (tran, causeIds, isUpdate) ->
   # This bit is to allow validation against a list of cause_ids,
   # as cannot dependency inject a whole collection over EJSON.
   # Otherwise, it validates against the wrong (server's) collection,

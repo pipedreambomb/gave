@@ -29,9 +29,14 @@ _.extend Template.transactions,
   created: ->
    
   events:
-    'change .transactions-to-show-select': (evt) ->
-      Session.set "transactionsInBarChart", evt.target.value
+    'change .transactions-to-show-select': (event) ->
+      Session.set "transactionsInBarChart", event.target.value
       updateBarChart()
+
+    'click .tran-del': (event) ->
+      event.preventDefault()
+      id = $(event.target).attr("data-cause-id")
+      Meteor.call "removeTransaction", id
 
   rendered: ->
     limit = (Session.get "transactionsInBarChart")
