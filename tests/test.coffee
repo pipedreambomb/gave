@@ -49,8 +49,9 @@ describe 'Giving Counts', ->
       done()
 
   loginAsTestUser = (done) ->
-    userEmail = @userEmail
-    userPassword = @userPassword
+    login @userEmail, @userPassword, done
+
+  login = (userEmail, userPassword, callback) ->
     Meteor.logout()
     Meteor.loginWithPassword userEmail, userPassword, (error) ->
       if error?
@@ -62,11 +63,11 @@ describe 'Giving Counts', ->
             throw error if error?
             Meteor.loginWithPassword userEmail, userPassword, (error) ->
               throw error if error?
-              done()
+              callback.call()
        else
-         done()
+         callback.call()
 
-  before (done) ->
+  before ->
     this.timeout 10000 #extend default 2 second timeout
     @preSubTotal = Template.transactions.SubTotal()
     @realCauses = gave.Causes
@@ -77,6 +78,7 @@ describe 'Giving Counts', ->
 
     insertFixtures.call this
 
+  beforeEach (done) ->
     loginAsTestUser.call this, done
 
   describe 'User', ->
@@ -113,6 +115,7 @@ describe 'Giving Counts', ->
         amount:2
         cause_id: causeIds[1]
         date: new Date 2011, 11, 11
+        owner: Meteor.userId()
       insertTransaction.call this, tran1, (error, result) ->
         done(error) if error?
         result.should.be.a 'string'
@@ -127,12 +130,29 @@ describe 'Giving Counts', ->
           result2.date.getDate().should.equal 11
           done()
 
-    it 'does not update another user\'s transaction'
-
+    it 'does not update another user\'s transaction', (done) ->
+      this.timeout 5000
+      testUserEmail = @userEmail
+      testUserPassword = @userPassword
+      tran =
+        amount: 5
+        date: new Date()
+        cause_id: @causeIds[0]
+        owner: Meteor.userId()
+      insertTransaction.call this, tran, (error, result) ->
+        done(error) if error?
+        result.should.be.a 'string'
+        tran._id = result
+        tran.amount = 10
+        login "other-user@example.com", "passwordXXXXX", ->
+          Meteor.call "updateTransaction", tran, (error, result) ->
+            should.exist error
+            error.details.should.contain "Cannot change another user's transactions"
+            done()
+        
   describe 'Transaction validation', ->
 
     it 'inserts a new transaction', (done) ->
-      debugger
       goodTrans =
         amount: 10
         cause_id: @causeIds[0]

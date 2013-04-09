@@ -16,11 +16,15 @@ Meteor.methods
       gave.Transactions.insert tran
 
   updateTransaction: (tran) ->
+    if tran.owner != Meteor.userId()
+      console.log tran.owner + " != " + Meteor.userId()
+      throw new Meteor.Error 403, "Forbidden", "Cannot change another user's transactions"
     tranId = tran._id
     # Don't want to update _id or owner
     delete tran._id
     delete tran.owner
     mongoModifier = {$set: tran}
+    console.log (EJSON.stringify mongoModifier)
     gave.Transactions.update tranId, mongoModifier
     # Return updated Transaction
     gave.Transactions.findOne tranId
