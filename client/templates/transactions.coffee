@@ -36,7 +36,8 @@ _.extend Template.transactions,
     'click .tran-del': (event) ->
       event.preventDefault()
       id = $(event.target).attr("data-cause-id")
-      Meteor.call "removeTransaction", id
+      bootbox.confirm "Are you sure you want to remove this transaction?", (confirmation) ->
+        Meteor.call "removeTransaction", id if confirmation
 
   rendered: ->
     limit = (Session.get "transactionsInBarChart")
