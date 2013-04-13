@@ -240,7 +240,7 @@ describe 'Giving Counts', ->
         ownerId: Meteor.userId()
       insertTransaction.call this, badTrans, (error, result) ->
         should.exist error
-        error.details.should.contain "NaN"
+        error.details.should.contain "Amount not entered or not a number"
         done()
 
     it 'requires cause_id refers to a real Cause', (done) ->
@@ -271,7 +271,7 @@ describe 'Giving Counts', ->
 
     it 'calculates totals per cause', ->
 
-      frag = Meteor.render Template.causes
+      frag = Meteor.render Template.causes_summary
       tds = frag.querySelectorAll "td"
       tds[0].innerHTML.should.have.string "Test cause"
       tds[1].innerHTML.should.have.string "579.78"

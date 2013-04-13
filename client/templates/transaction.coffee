@@ -11,13 +11,15 @@ Template.transaction.Causes = ->
   gave.Causes.find()
 
 Template.transaction.events
-  'click #doneBtn': (evt) ->
+  'keyup #tranAmount': (event) ->
+    Session.set "currentTransactionAmount", parseFloat event.target.value
+  'click #doneBtn': (event) ->
     # Clear the error message
     Session.set "Transaction_error", null
-    evt.preventDefault()
+    event.preventDefault()
     fm = document.forms["transaction"]
     tran =
-      cause_id: fm["cause"].value
+      cause_id: Session.get "selectedCause"
       amount: parseFloat fm["amount"].value
       date: moment(fm["date"].value).toDate() #parse string as date
       owner: Meteor.userId()
@@ -28,17 +30,21 @@ Template.transaction.events
         if error?
           Session.set "Transaction_error", error.details
         else
-          Meteor.Router.to '/'
+          Meteor.Router.to '/dashboard'
     else
       Meteor.call "insertTransaction", tran, null, (error, result) ->
         if error?
           Session.set "Transaction_error", error.details
         else
-          Meteor.Router.to '/'
+          Meteor.Router.to '/dashboard'
 
 Template.transaction.rendered = ->
   # Set up the datepicker ui object
-  $('.datepicker').datepicker()
+  try
+    $('.datepicker').datepicker()
+  # Ignore error thrown when datepicker tries to parse an empty string.
+  # We definitely want a datepicker object on that input, especially
+  # if it is empty, or else how will it ever get a real value?
 
 Template.transaction.helpers
   shortDate: ->

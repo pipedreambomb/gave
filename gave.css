@@ -1,4 +1,4 @@
 /* CSS declarations go here */
-#login {
-	float: right;
+.selected {
+	background-color: gray;
 }

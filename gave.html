@@ -98,7 +98,7 @@
 <template name="transaction">
 <h1>New donation</h1>
 {{#if TransactionError}}
-	<h2 color=red>{{TransactionError}}</h2>
+<div class="alert alert-error"><strong>Whoops!</strong> {{TransactionError}}</div>
 {{/if}}
 <div class="row">
 	<div class="span8">
@@ -110,19 +110,32 @@
 		<form name="transaction">
 		    <label>
 			 {{#with Transaction}}
-			 Amount ($)   
-			 <input name="amount" value="{{amount}}"></input>
+			 Amount
+			 <div class="input-prepend">
+				 <span class="add-on">$</span>
+				 <input id="tranAmount" name="amount" value="{{amount}}" placeholder="E.g. 29.99" class="span2" type="text"></input>
+			 </div>
 		    </label>
 		    <label>
 			 Date   
-			 <input name="date" class="datepicker" value="{{shortDate}}"></input>
+			 <input name="date" class="datepicker" value="{{shortDate}}" placeholder="E.g. 12/31/2012" type="text"></input>
 			 {{/with}}
 		    </label>
+		    {{> live_effects }}
 		    <a href='#' class='btn' id='doneBtn'>Done</a>
 
 		  </form>
 	  </div>
   </div>
+</template>
+
+<template name="live_effects">
+<h3>Effects (updated as you type):</h3>
+	<ul>
+		{{#each Effects}}
+			<li>{{description}}: {{amount}}</li>
+		{{/each}}
+	</ul>
 </template>
 
 <template name="causes_summary">
@@ -147,6 +160,7 @@
 <!-- Display information about each cause when creating a new donation -->
 <template name="causes_info">
 {{#each Causes}}
+<div class="cause_info {{selected}}">
 	<h5>{{name}}</h5>
 	<h6>{{category}}</h6>
 	<p>Effects:</p>
@@ -155,6 +169,8 @@
 		<li>{{amount}} {{description}} per ${{effectPer}}</li>
 	{{/each}}
 	</ul>
+	<a href='#' class="btn select-cause" data-cause-id="{{_id}}">Select</a>
+</div>
 {{/each}}
 </template>
 
