@@ -3,21 +3,50 @@
 </head>
 
 <body>
-  <div id="login">
-    {{loginButtons align="right"}}
+    <div class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="navbar-inner">
+		  <div class="container">
+			  <a class="brand" href='/'>Giving Counts</a>
+			  <ul class="nav">
+				  <li>
+				  	<a href='/about'>About</a>
+				  </li>
+				  <li>
+				  	<a href='/dashboard'>My dashboard</a>
+				  </li>
+				    {{loginButtons}}
+			  </ul>
+		  </div>
+	  </div>
   </div>
-  <h1>Giving Counts</h1>
-  {{renderPage}}
+
+  <div class="container">
+	  {{renderPage}}
+  </div>
 </body>
 
 <template name="home">
-  <a href='/tests' class='btn'>Run tests</a>
-  <h2>Transactions</h2>
-  {{> transactions }}
-  <h2>Causes</h2>
-  {{> causes }}
-  <h2>Effects</h2>
-  {{> effects }}
+  <h2>Welcome to Giving Counts!</h2>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a orci sed diam congue interdum vitae eget nisl. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam non nisi sagittis enim molestie iaculis. Aenean ultrices condimentum lobortis. Quisque tempor purus magna, sit amet dignissim est. Morbi pellentesque augue sit amet mauris tempus pretium. Fusce vitae suscipit odio. Sed scelerisque laoreet lectus, eget sollicitudin ipsum tempus ac. Phasellus in erat eu metus accumsan condimentum. Sed at enim nibh, quis tempus nulla. Maecenas sed lacus metus, aliquet faucibus erat. Quisque molestie, urna nec porttitor adipiscing, leo ligula tempor lacus, sit amet lacinia libero quam sit amet quam. Nulla facilisi. Maecenas eget ante tellus. Phasellus at orci mauris. Etiam adipiscing facilisis lobortis.</p>
+</template>
+<template name="about">
+  <h2>About Giving Counts!</h2>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a orci sed diam congue interdum vitae eget nisl. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam non nisi sagittis enim molestie iaculis. Aenean ultrices condimentum lobortis. Quisque tempor purus magna, sit amet dignissim est. Morbi pellentesque augue sit amet mauris tempus pretium. Fusce vitae suscipit odio. Sed scelerisque laoreet lectus, eget sollicitudin ipsum tempus ac. Phasellus in erat eu metus accumsan condimentum. Sed at enim nibh, quis tempus nulla. Maecenas sed lacus metus, aliquet faucibus erat. Quisque molestie, urna nec porttitor adipiscing, leo ligula tempor lacus, sit amet lacinia libero quam sit amet quam. Nulla facilisi. Maecenas eget ante tellus. Phasellus at orci mauris. Etiam adipiscing facilisis lobortis.</p>
+</template>
+
+<template name="dashboard">
+<div class="row">
+  <div class="span8">
+	  <h2>Donations</h2>
+	  {{> transactions }}
+  </div>
+  <div class="span4">
+	  <h2>Causes</h2>
+	  {{> causes_summary }}
+	  <h2>Effects</h2>
+	  {{> effects }}
+  </div>
+</div>
 </template>
 
 <template name="tests">
@@ -67,34 +96,36 @@
 </template>
 
 <template name="transaction">
+<h1>New donation</h1>
 {{#if TransactionError}}
-<h2 color=red>{{TransactionError}}</h2>
+	<h2 color=red>{{TransactionError}}</h2>
 {{/if}}
-<form name="transaction">
-    <label>
-	 Cause   
-	 <select id="cause-select" name="cause">
-	 {{#each Causes}}
-		 <option value={{_id}} {{#if selected}}selected{{/if}}>{{name}}</option>
-	 {{/each}}
-	 </select>
-    </label>
-    <label>
-	 {{#with Transaction}}
-	 Amount ($)   
-	 <input name="amount" value="{{amount}}"></input>
-    </label>
-    <label>
-	 Date   
-	 <input name="date" class="datepicker" value="{{shortDate}}"></input>
-	 {{/with}}
-    </label>
-    <a href='#' class='btn' id='doneBtn'>Done</a>
+<div class="row">
+	<div class="span8">
+		<h2>Step 1: choose a cause</h2>
+		{{> causes_info }}
+	</div>
+	<div class="span4">
+		<h2>Step 2: enter a donation</h2>
+		<form name="transaction">
+		    <label>
+			 {{#with Transaction}}
+			 Amount ($)   
+			 <input name="amount" value="{{amount}}"></input>
+		    </label>
+		    <label>
+			 Date   
+			 <input name="date" class="datepicker" value="{{shortDate}}"></input>
+			 {{/with}}
+		    </label>
+		    <a href='#' class='btn' id='doneBtn'>Done</a>
 
-  </form>
+		  </form>
+	  </div>
+  </div>
 </template>
 
-<template name="causes">
+<template name="causes_summary">
 <canvas class="causes-pie-chart"></canvas>
 <table>
 	<tr>
@@ -111,6 +142,20 @@
             <td colspan="2">Total: ${{SubTotal}}</td>
          </tr>
 </table>
+</template>
+
+<!-- Display information about each cause when creating a new donation -->
+<template name="causes_info">
+{{#each Causes}}
+	<h5>{{name}}</h5>
+	<h6>{{category}}</h6>
+	<p>Effects:</p>
+	<ul>
+	{{#each Effects}}
+		<li>{{amount}} {{description}} per ${{effectPer}}</li>
+	{{/each}}
+	</ul>
+{{/each}}
 </template>
 
 <template name="effects">

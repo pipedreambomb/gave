@@ -6,7 +6,7 @@ Template.effects.Causes = ->
         res = []
         self = this
         _.each this.effects, (val, key) ->
-          res.push {unit: key, totalEffects: totalDonated * val / self.effectPer}
+          res.push {unit: key, totalEffects: parseInt (totalDonated * val / self.effectPer) }
         res
 
-Template.effects.helpers = Template.causes.helpers
+Template.effects.helpers = Template.causes_summary.helpers

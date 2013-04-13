@@ -5,6 +5,7 @@
     "moment": {},
     "bootstrap-datepicker": {},
     "bootboxjs": {},
-    "chartjs": {}
+    "chartjs": {},
+    "accounts-ui-bootstrap-dropdown": {}
   }
 }

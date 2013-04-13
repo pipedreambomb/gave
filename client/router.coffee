@@ -1,5 +1,7 @@
 Meteor.Router.add
   '/': 'home'
+  '/about': 'about'
+  '/dashboard': 'dashboard'
   '/tests': 'tests'
   '/transactions': 'transactions'
   '/add': ->

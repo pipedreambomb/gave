@@ -1,14 +1,14 @@
-Template.causes.Causes = ->
+Template.causes_summary.Causes = ->
   gave.Causes.find()
 
-Template.causes.SubTotal = ->
+Template.causes_summary.SubTotal = ->
   gave.sum gave.Transactions.find(), "amount"
 
-Template.causes.helpers
+Template.causes_summary.helpers
   total: ->
     gave.sum gave.Transactions.find({ cause_id: this._id }), "amount"
 
-Template.causes.rendered = ->
+Template.causes_summary.rendered = ->
   ctx = $(".causes-pie-chart").get(0).getContext("2d")
   colors = ["#F38630", "#E0E4CC", "#69D2E7"]
   data = gave.Causes.find().map (cause) ->
