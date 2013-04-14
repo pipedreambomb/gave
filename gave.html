@@ -57,7 +57,7 @@
 <template name="transactions">
 <canvas class="transactions-bar-chart"></canvas>
 <div class="transactions-bar-chart-controls">
-	Show past:
+	Chart shows past
 	<select class="transactions-to-show-select">
 		<option value="1">1</option>
 		<option value="2">2</option>
@@ -133,7 +133,15 @@
 <h3>Effects (updated as you type):</h3>
 	<ul>
 		{{#each Effects}}
-			<li>{{description}}: {{amount}}</li>
+			{{#if nocause}}
+				<li>No cause selected.</li>
+			{{/if}}
+			{{#if noamount}}
+				<li>No amount selected.</li>
+			{{/if}}
+			{{#if amount}}
+				<li>{{description}}: {{amount}}</li>
+			{{/if}}
 		{{/each}}
 	</ul>
 </template>
@@ -161,15 +169,26 @@
 <template name="causes_info">
 {{#each Causes}}
 <div class="cause_info {{selected}}">
-	<h5>{{name}}</h5>
-	<h6>{{category}}</h6>
-	<p>Effects:</p>
-	<ul>
-	{{#each Effects}}
-		<li>{{amount}} {{description}} per ${{effectPer}}</li>
-	{{/each}}
-	</ul>
-	<a href='#' class="btn select-cause" data-cause-id="{{_id}}">Select</a>
+	<hr/>
+	<h3>{{name}}</h3>
+	<h4>Category: {{category}}</h4>
+	<p><a href="{{website}}" target='_blank'>Visit website</a></p>
+	<p>{{description}}</p>
+	<div class="row">
+		<div class="span6">
+			<p>Effects:</p>
+			<ul>
+			{{#each effects}}
+			<li>1 <span class="lowercase">{{descr_singular}}</span> for every ${{perDollars}} given
+				<sup><a href="{{evidence}}" target='_blank'>[ref]</a></sup>
+			</li>
+			{{/each}}
+			</ul>
+		</div>
+		<div class="span2">
+			<a href='#' class="btn select-cause" data-cause-id="{{_id}}">Select</a>
+		</div>
+	</div>
 </div>
 {{/each}}
 </template>

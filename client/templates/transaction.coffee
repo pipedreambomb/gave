@@ -8,11 +8,10 @@ Template.transaction.TransactionError = ->
   Session.get "Transaction_error"
   
 Template.transaction.Causes = ->
-  gave.Causes.find()
+  gave.Causes.find({}, {sort: {name: 1}})
 
 Template.transaction.events
   'keyup #tranAmount': (event) ->
-    debugger
     fieldVal = event.target.value
     if gave.utils.parsesToNumber fieldVal
       amount = parseFloat event.target.value

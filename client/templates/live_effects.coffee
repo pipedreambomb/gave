@@ -1,12 +1,15 @@
 Template.live_effects.Effects = ->
+  res = [{}]
   causeId = Session.get "selectedCause"
-  amount = Session.get "currentTransactionAmount"
-  if causeId and amount
+  tranAmount = Session.get "currentTransactionAmount"
+  if !causeId
+    res[0].nocause = true
+  else if !tranAmount
+    res[0].noamount = true
+  else
     cause = gave.Causes.findOne causeId
-    pairs = _.pairs cause.effects
-    res = _.map pairs, (pair) ->
-      if typeof amount == "string"
-        amount = "error"
-      else
-        amount =  pair[1] * amount / cause.effectPer
-      { description: pair[0], amount: amount }
+    if cause
+      res = _.map cause.effects, (effect) ->
+        description: effect.descr_plural
+        amount: tranAmount / effect.perDollars
+  res

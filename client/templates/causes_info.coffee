@@ -3,14 +3,7 @@ Template.causes_info.helpers
   selected: -> 'selected' if this._id == Session.get "selectedCause"
 
 Template.causes_info.Causes = ->
-  gave.Causes.find().map (cause) ->
-    _.extend cause,
-      Effects: ->
-        pairs = _.pairs cause.effects
-        res = _.map pairs, (pair) ->
-          description: pair[0].toLowerCase()
-          amount: pair[1]
-          effectPer: cause.effectPer
+  gave.Causes.find {}, {sort: {name: 1}}
 
 Template.causes_info.events
   'click .select-cause': (event) ->

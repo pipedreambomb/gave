@@ -3,6 +3,8 @@
   Causes: new Meteor.Collection("Causes")
 
   utils:
+    # From http://stackoverflow.com/questions/18082
+    #     /validate-numbers-in-javascript-isnumeric
     parsesToNumber: (n) ->
       !isNaN(parseFloat(n)) && isFinite(n)
       
@@ -11,21 +13,3 @@
       collectionIterator.forEach (i) ->
         total += parseFloat i[property]
       total
-
-    populateData: ->
-      console.log("no data, populating")
-
-      causeId1 = gave.Causes.insert
-        name: 'Against Malaria Foundation'
-        category: 'Health'
-        effectPer: 100
-        effects:
-          "Lives saved": 5
-          "Tests run": 20
-      causeId2 = gave.Causes.insert
-        name: 'Give Direct'
-        category: 'Development'
-        effectPer: 100
-        effects:
-          "Lives saved": 1
-          "Tests run": 2

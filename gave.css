@@ -1,4 +1,4 @@
 /* CSS declarations go here */
-.selected {
-	background-color: gray;
-}
+.selected {background-color: rgb(224, 255, 168);}
+
+.lowercase {text-transform:lowercase;}
