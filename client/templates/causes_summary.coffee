@@ -5,8 +5,7 @@ Template.causes_summary.SubTotal = ->
   gave.utils.sum gave.Transactions.find(), "amount"
 
 Template.causes_summary.helpers
-  total: ->
-    gave.utils.sum gave.Transactions.find({ cause_id: this._id }), "amount"
+  total: -> gave.utils.sum gave.Transactions.find({ cause_id: this._id }), "amount"
 
 Template.causes_summary.rendered = ->
   ctx = $(".causes-pie-chart").get(0).getContext("2d")
