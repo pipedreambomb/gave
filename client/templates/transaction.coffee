@@ -12,7 +12,12 @@ Template.transaction.Causes = ->
 
 Template.transaction.events
   'keyup #tranAmount': (event) ->
-    Session.set "currentTransactionAmount", parseFloat event.target.value
+    debugger
+    fieldVal = event.target.value
+    if gave.utils.parsesToNumber fieldVal
+      amount = parseFloat event.target.value
+    Session.set "currentTransactionAmount", amount or "error"
+
   'click #doneBtn': (event) ->
     # Clear the error message
     Session.set "Transaction_error", null

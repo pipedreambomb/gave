@@ -5,5 +5,8 @@ Template.live_effects.Effects = ->
     cause = gave.Causes.findOne causeId
     pairs = _.pairs cause.effects
     res = _.map pairs, (pair) ->
-      description: pair[0].toLowerCase()
-      amount: pair[1] * amount / cause.effectPer
+      if typeof amount == "string"
+        amount = "error"
+      else
+        amount =  pair[1] * amount / cause.effectPer
+      { description: pair[0], amount: amount }
