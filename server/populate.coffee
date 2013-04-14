@@ -19,12 +19,22 @@ causes = [
     website: 'http://www.givedirectly.org'
     description: 'GiveDirectly transfers money directly to extremely poor households in Kenya. At least 90% of donations goes straight to the recipients, with less than 10% used to identify and track recipients and on transfer costs.'
     category: 'Development'
-    effectPer: 100
     effects: [
         descr_singular: "Dollar Transferred"
         descr_plural: "Dollars Transferred"
         perDollars: 1.11
         evidence: "http://www.thelifeyoucansave.com/organization"
+    ]
+  ,
+    name: 'Schistosomiasis Control Initiative (SCI)'
+    website: 'http://www3.imperial.ac.uk/schisto/donate'
+    description: 'The Schistosomiasis Control Initiative assists African governments with treatment of parasitic worms and runs a number of smaller-scale projects. Worm-based diseases can be prevented for less than 50 cents per child per year and this results in healthier children with improved school attendance.'
+    category: 'Health'
+    effects: [
+        descr_singular: "Deworming Treatment"
+        descr_plural: "Deworming Treatments"
+        perDollars: 0.68
+        evidence: "http://www.givewell.org/international/top-charities/schistosomiasis-control-initiative#Whatdoyougetforyourdollar"
     ]
 ]
 

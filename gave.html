@@ -96,7 +96,7 @@
 </template>
 
 <template name="transaction">
-<h1>New donation</h1>
+<h1>{{Action}} donation</h1>
 {{#if TransactionError}}
 <div class="alert alert-error"><strong>Whoops!</strong> {{TransactionError}}</div>
 {{/if}}
@@ -122,8 +122,10 @@
 			 {{/with}}
 		    </label>
 		    {{> live_effects }}
+		    <br/>
+		    <h2>Step 3: confirm</h2>
 		    <a href='#' class='btn btn-success' id='doneBtn'>Add this donation</a>
-
+		    <a href='#' class='btn' id='cancelBtn'>Cancel</a>
 		  </form>
 	  </div>
   </div>

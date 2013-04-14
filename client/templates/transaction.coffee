@@ -1,6 +1,7 @@
 Template.transaction.Transaction = ->
   id = Session.get "currentTransactionId"
   t = gave.Transactions.findOne { _id: id } if id
+  Session.set "selectedCause", t.cause_id if t
   #feed the template some empty fields if no transaction matches
   t or { amount: "", date: "" }
 
@@ -10,6 +11,10 @@ Template.transaction.TransactionError = ->
 Template.transaction.Causes = ->
   gave.Causes.find({}, {sort: {name: 1}})
 
+# To display in heading, New Transaction or Edit Transaction
+Template.transaction.Action = ->
+  if Session.get "currentTransactionId" then "Edit" else "New"
+
 Template.transaction.events
   'keyup #tranAmount': (event) ->
     fieldVal = event.target.value
@@ -17,6 +22,9 @@ Template.transaction.events
       amount = parseFloat event.target.value
     Session.set "currentTransactionAmount", amount or "error"
 
+  'click #cancelBtn': (event) ->
+    Meteor.Router.to '/dashboard'
+    
   'click #doneBtn': (event) ->
     # Clear the error message
     Session.set "Transaction_error", null
