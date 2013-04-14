@@ -1,12 +1,11 @@
 Template.effects.Causes = ->
   gave.Causes.find().map (cause) ->
-    _.extend cause,
-      Effects: ->
-        totalDonated = gave.utils.sum gave.Transactions.find({ cause_id: this._id }), "amount"
-        res = []
-        self = this
-        _.each this.effects, (val, key) ->
-          res.push {unit: key, totalEffects: parseInt (totalDonated * val / self.effectPer) }
-        res
+      totalDonated = gave.utils.sum gave.Transactions.find({ cause_id: cause._id }), "amount"
+      if totalDonated > 0
+        _.extend cause,
+          Effects: ->
+            _.map this.effects, (effect) ->
+              unit: effect.descr_plural
+              totalEffects: (totalDonated / effect.perDollars).toFixed(2)
 
 Template.effects.helpers = Template.causes_summary.helpers

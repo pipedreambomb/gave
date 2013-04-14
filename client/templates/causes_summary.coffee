@@ -1,5 +1,11 @@
 Template.causes_summary.Causes = ->
-  gave.Causes.find()
+  okIds = []
+  gave.Causes.find().map (cause) ->
+    totalDonated = gave.utils.sum gave.Transactions.find({ cause_id: cause._id }), "amount"
+    if totalDonated > 0
+      okIds.push cause._id
+  # Return cursor
+  gave.Causes.find {_id: {$in: okIds}}
 
 Template.causes_summary.SubTotal = ->
   gave.utils.sum gave.Transactions.find(), "amount"
