@@ -1,3 +1,6 @@
+Template.causes_summary.UserHasTransactions = ->
+  gave.Transactions.find().count() > 0
+
 Template.causes_summary.Causes = ->
   okIds = []
   gave.Causes.find().map (cause) ->

@@ -55,6 +55,16 @@
 </template>
 
 <template name="transactions">
+{{#if UserHasTransactions }}
+	{{> transactions_chart }}
+	{{> transactions_table }}
+{{else}}
+<p>You don't have any donations to display here. You should add one!</p>
+{{/if}}
+<a class="btn" id="add_transaction" href='/add'>Add <i class='icon-plus-sign'></i></a>
+</template>
+
+<template name="transactions_chart">
 <canvas class="transactions-bar-chart"></canvas>
 <div class="transactions-bar-chart-controls">
 	Chart shows past
@@ -68,6 +78,9 @@
 	</select>
 	transactions
 </div>
+</template>
+
+<template name="transactions_table">
    <div id="TransactionsTable">
       <table>
          <tr>
@@ -91,7 +104,6 @@
 		 <td colspan="4">Total: $<span class="Transactions_subtotal">{{SubTotal}}</span></td>
          </tr>
        </table>
-	 <a class="btn" id="add_transaction" href='/add'>Add <i class='icon-plus-sign'></i></a>
    </div>
 </template>
 
@@ -149,22 +161,26 @@
 </template>
 
 <template name="causes_summary">
-<canvas class="causes-pie-chart"></canvas>
-<table>
-	<tr>
-		<th>Cause</th>
-		<th>Total</th>
-	</tr>
-	{{#each Causes}}
-	<tr>
-		<td>{{name}}</td>
-		<td>${{total}}</td>
-	</tr>
-	{{/each}}
-         <tr>
-            <td colspan="2">Total: ${{SubTotal}}</td>
-         </tr>
-</table>
+{{#if UserHasTransactions}}
+	<canvas class="causes-pie-chart"></canvas>
+	<table>
+		<tr>
+			<th>Cause</th>
+			<th>Total</th>
+		</tr>
+		{{#each Causes}}
+		<tr>
+			<td>{{name}}</td>
+			<td>${{total}}</td>
+		</tr>
+		{{/each}}
+		 <tr>
+		    <td colspan="2">Total: ${{SubTotal}}</td>
+		 </tr>
+	</table>
+{{else}}
+	<p>As soon as you add some transactions, a summary of the causes you have given to will appear here.</p>
+{{/if}}
 </template>
 
 <!-- Display information about each cause when creating a new donation -->
@@ -196,6 +212,7 @@
 </template>
 
 <template name="effects">
+{{#if UserHasTransactions }}
 	{{#each Causes}}
 	<h5>{{name}}</h5>
 	<ul>
@@ -204,4 +221,7 @@
 		{{/each}}
 	</ul>
 	{{/each}}
+{{else}}
+	<p>No effects to display yet.</p>
+{{/if}}
 </template>
