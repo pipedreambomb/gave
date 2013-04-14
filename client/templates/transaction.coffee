@@ -34,7 +34,7 @@ Template.transaction.events
     tran =
       cause_id: Session.get "selectedCause"
       amount: parseFloat fm["amount"].value
-      date: moment(fm["date"].value).toDate() #parse string as date
+      date: parseDateOrUseNowIfToday fm["date"].value
       owner: Meteor.userId()
     id = Session.get "currentTransactionId"
     if id
@@ -50,6 +50,20 @@ Template.transaction.events
           Session.set "Transaction_error", error.details
         else
           Meteor.Router.to '/dashboard'
+
+# Without this, it creates a date at 0 hours, 0 minutes,
+# so it will immediately say your new donation was 18 hours ago,
+# for example, which looks strange.
+parseDateOrUseNowIfToday = (dateStr) ->
+  if typeof dateStr == "string" and dateStr.length > 0
+    date = moment(dateStr).toDate() #parse string as date
+    now = new Date()
+    if date.getDate() == now.getDate() and
+        date.getMonth() == now.getMonth() and
+         date.getYear() == now.getYear()
+      return now
+    else
+      return date
 
 Template.transaction.rendered = ->
   # Set up the datepicker ui object

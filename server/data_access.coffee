@@ -46,13 +46,13 @@ validateTransaction = (tran, causeIds, isUpdate) ->
   if Meteor.userId() == null
     throw new Meteor.Error 403, "No User", "User is not logged in"
   unless tran.amount and typeof tran.amount == "number"
-    throw new Meteor.Error 400, "Transaction Invalid", "Amount not entered or not a number"
+    throw new Meteor.Error 400, "Transaction Invalid", "Amount not entered or not a number."
   unless tran.date and tran.date instanceof Date
-    throw new Meteor.Error 400, "Transaction Invalid", "Date is not present or not a Date"
+    throw new Meteor.Error 400, "Transaction Invalid", "Date is not present or not a Date."
   unless tran.cause_id and matchingCause
-    throw new Meteor.Error 404, "Transaction Invalid", "Cause not found"
+    throw new Meteor.Error 404, "Transaction Invalid", "You must select a cause."
   unless tran.owner and Meteor.userId() == tran.owner
-    throw new Meteor.Error 400, "Transaction Invalid", "Owner id does not match logged-in user"
+    throw new Meteor.Error 400, "Transaction Invalid", "Owner id does not match logged-in user."
 
   # Transaction is valid
   true

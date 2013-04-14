@@ -1,7 +1,6 @@
 Template.causes_info.helpers
   # Set the CSS class to 'selected' if this cause is selected
   selected: -> 
-    debugger
     'selected' if this._id == Session.get "selectedCause"
 
 Template.causes_info.Causes = ->
