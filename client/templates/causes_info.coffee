@@ -9,7 +9,12 @@ Template.causes_info.Causes = ->
 
 Template.causes_info.helpers
   # Ascending by cost, so most affordable shown first in list
-  sorted_effects: -> _.sortBy this.effects, "perDollars"
+  sorted_effects: -> 
+    sorted = _.sortBy this.effects, "perDollars"
+    # Add the .00 or whatever to moneys
+    _.map sorted, (effect) ->
+      effect.perDollars = (parseFloat effect.perDollars).toFixed(2)
+    sorted
 
 Template.causes_info.events
   'click .select-cause': (event) ->

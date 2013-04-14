@@ -16,6 +16,7 @@ Template.transaction.Action = ->
   if Session.get "currentTransactionId" then "Edit" else "New"
 
 Template.transaction.events
+    
   'keyup #tranAmount': (event) ->
     fieldVal = event.target.value
     if gave.utils.parsesToNumber fieldVal

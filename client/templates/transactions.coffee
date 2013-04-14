@@ -24,7 +24,9 @@ _.extend Template.transactions,
     gave.Transactions.find {}, { sort: {date: -1} }
 
   SubTotal: ->
-    gave.utils.sum gave.Transactions.find(), "amount"
+    subtotal = gave.utils.sum gave.Transactions.find(), "amount"
+    # Display with two decimal places, e.g. 4.00
+    subtotal.toFixed(2)
 
   created: ->
    
@@ -49,3 +51,6 @@ Template.transactions.helpers
     moment(this.date).fromNow()
   cause: ->
     gave.Causes.findOne(@cause_id)?.name
+  # Amount with 2 decimal places, usual for money.
+  amount2dp: ->
+    this.amount.toFixed(2)
