@@ -13,3 +13,7 @@ Template.live_effects.Effects = ->
         description: effect.descr_plural
         amount: tranAmount / effect.perDollars
   res
+
+Template.live_effects.helpers
+  # 2 decimal places
+  amount_2dp: -> this.amount.toFixed(2)

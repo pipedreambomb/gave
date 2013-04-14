@@ -122,7 +122,7 @@
 			 {{/with}}
 		    </label>
 		    {{> live_effects }}
-		    <a href='#' class='btn' id='doneBtn'>Done</a>
+		    <a href='#' class='btn btn-success' id='doneBtn'>Add this donation</a>
 
 		  </form>
 	  </div>
@@ -140,7 +140,7 @@
 				<li>No amount selected.</li>
 			{{/if}}
 			{{#if amount}}
-				<li>{{description}}: {{amount}}</li>
+				<li>{{description}}: {{amount_2dp}}</li>
 			{{/if}}
 		{{/each}}
 	</ul>
