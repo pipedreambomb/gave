@@ -11,16 +11,28 @@ insertFixtures = ->
     name: 'Test cause'
     area: 'Test'
     effectPer: 100
-    effects:
-      "Lives saved": 5
-      "Tests run": 20
+    effects: [
+        descr_singular: "Life Saved"
+        descr_plural: "Lives Saved"
+        perDollars: 5
+      ,
+        descr_singular: "Test Run"
+        descr_plural: "Tests Run"
+        perDollars: 10
+    ]
   @causeIds[1] = gave.Causes.insert
     name: 'Test cause 2'
     area: 'Test'
     effectPer: 100
-    effects:
-      "Lives saved": 1
-      "Tests run": 2
+    effects: [
+        descr_singular: "Life Saved"
+        descr_plural: "Lives Saved"
+        perDollars: 1
+      ,
+        descr_singular: "Test Run"
+        descr_plural: "Tests Run"
+        perDollars: 2
+    ]
   @transactions = []
   @transactions[0] = gave.Transactions.insert
     cause_id: @causeIds[0]
@@ -69,7 +81,7 @@ describe 'Giving Counts', ->
 
   before ->
     this.timeout 10000 #extend default 2 second timeout
-    frag = Meteor.render Template.transactions
+    frag = Meteor.render Template.transactions_table
     @preSubTotal = (frag.querySelector ".Transactions_subtotal").innerHTML
     @realCauses = gave.Causes
     @realTransactions = gave.Transactions
@@ -98,11 +110,11 @@ describe 'Giving Counts', ->
       tran.date.should.eql (new Date 93, 12, 25)
 
     it 'calculates subtotal correctly', ->
-      subTotal = Template.transactions.SubTotal()
-      subTotal.should.equal 1579.78 # 123 + 456.78 + 1000
+      subTotal = Template.transactions_table.SubTotal()
+      subTotal.should.equal "1579.78" # 123 + 456.78 + 1000
 
     it 'displays name of charity', ->
-      frag = Meteor.render Template.transactions
+      frag = Meteor.render Template.transactions_table
       (frag.querySelector "td").innerHTML.should.have.string "Test cause"
       
     it 'updates transactions', (done) ->
@@ -214,7 +226,7 @@ describe 'Giving Counts', ->
         amount: 10
         date: new Date()
         owner: Meteor.userId()
-      insertAndExpectError.call this, badTrans, "Cause", done
+      insertAndExpectError.call this, badTrans, "You must select a cause.", done
 
     it 'requires date in new transaction', (done) ->
 
@@ -252,7 +264,7 @@ describe 'Giving Counts', ->
       insertTransaction.call this, badTrans, (error, result) ->
         should.exist error
         error.error.should.equal 404
-        error.details.should.contain "Cause"
+        error.details.should.contain "You must select a cause."
         done()
 
     it 'requires owner is logged-in user', (done) ->
@@ -283,8 +295,8 @@ describe 'Giving Counts', ->
       frag = Meteor.render Template.effects
       uls = frag.querySelectorAll "ul"
       lis = uls[1].querySelectorAll "li" # use second cause as math is easier
-      lis[0].innerHTML.should.have.string "Lives saved: 10"
-      lis[1].innerHTML.should.have.string "Tests run: 20"
+      lis[0].innerHTML.should.have.string "Tests Run: 500.00"
+      lis[1].innerHTML.should.have.string "Lives Saved: 1000.00"
 
   after ->
     Meteor.logout()
