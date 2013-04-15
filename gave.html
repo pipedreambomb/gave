@@ -1,8 +1,15 @@
 <head>
-  <title>gave</title>
+	<title>gave</title>
 </head>
 
 <body>
+	{{> navbar}}
+	<div class="container">
+		{{renderPage}}
+	</div>
+</body>
+
+<template name="navbar">
     <div class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="navbar-inner">
 		  <div class="container">
@@ -11,19 +18,17 @@
 				  <li>
 				  	<a href='/about'>About</a>
 				  </li>
+				  {{#if UserIsLoggedIn}}
 				  <li>
 				  	<a href='/dashboard'>My dashboard</a>
 				  </li>
+				  {{/if}}
 				    {{loginButtons}}
 			  </ul>
 		  </div>
 	  </div>
   </div>
-
-  <div class="container">
-	  {{renderPage}}
-  </div>
-</body>
+</template>
 
 <template name="home">
   <h2>Welcome to Giving Counts!</h2>
