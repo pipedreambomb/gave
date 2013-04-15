@@ -7,6 +7,9 @@ Template.transaction.Transaction = ->
 
 Template.transaction.TransactionError = ->
   Session.get "Transaction_error"
+
+Template.transaction.UserHasSelectedCause = ->
+  (Session.get "selectedCause")?
   
 Template.transaction.Causes = ->
   gave.Causes.find({}, {sort: {name: 1}})

@@ -125,12 +125,12 @@
 			 Amount
 			 <div class="input-prepend">
 				 <span class="add-on">$</span>
-				 <input id="tranAmount" name="amount" value="{{amount}}" placeholder="E.g. 29.99" class="span2" type="text"></input>
+				 <input id="tranAmount" name="amount" value="{{amount}}" placeholder="E.g. 29.99" class="span2" type="text" {{#unless UserHasSelectedCause}}disabled{{/unless}}></input>
 			 </div>
 		    </label>
 		    <label>
 			 Date   
-			 <input name="date" class="datepicker" value="{{shortDate}}" placeholder="E.g. 12/31/2012" type="text"></input>
+			 <input name="date" class="datepicker" value="{{shortDate}}" placeholder="E.g. 12/31/2012" type="text" {{#unless UserHasSelectedCause}}disabled{{/unless}}></input>
 			 {{/with}}
 		    </label>
 		    {{> live_effects }}
