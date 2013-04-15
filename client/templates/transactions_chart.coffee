@@ -24,8 +24,8 @@ Template.transactions_chart.events
     Session.set "transactionsInBarChart", event.target.value
     updateBarChart()
 
-Template.transactions_chart.helpers
-  rendered: ->
+Template.transactions_chart.rendered = ->
+
     limit = (Session.get "transactionsInBarChart")
     $(".transactions-to-show-select").val(limit) if limit?
     updateBarChart()
