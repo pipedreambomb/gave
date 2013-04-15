@@ -244,6 +244,29 @@ describe 'Giving Counts', ->
         cause_id: @causeIds[0]
       insertAndExpectError.call this, badTrans, "Owner", done
 
+    it 'rejects amount of 0', (done) ->
+      badTrans=
+        amount: 0
+        cause_id: @causeIds[0]
+        date: new Date()
+        ownerId: Meteor.userId()
+      insertTransaction.call this, badTrans, (error, result) ->
+        should.exist error
+        error.details.should.contain "Amount must be greater than 0."
+        done()
+
+    it 'rejects negative amounts', (done) ->
+      badTrans=
+        amount: -99.01
+        cause_id: @causeIds[0]
+        date: new Date()
+        ownerId: Meteor.userId()
+      insertTransaction.call this, badTrans, (error, result) ->
+        should.exist error
+        error.details.should.contain "Amount must be greater than 0."
+        done()
+      
+
     it 'accepts only numeric amounts', (done) ->
       badTrans =
         amount: "jr92ede2"
