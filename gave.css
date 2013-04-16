@@ -2,3 +2,15 @@
 .selected {background-color: rgb(224, 255, 168);}
 
 .lowercase {text-transform:lowercase;}
+
+#login-buttons {
+	line-height: 30px;
+	padding: 10px 20px 10px;
+}
+
+.navbar .nav > li > a {
+	line-height: 30px;
+}
+
+.navbar .brand {font-weight: bold}
+.navbar .brand.active {color: #fff}
