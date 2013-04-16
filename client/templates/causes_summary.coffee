@@ -2,13 +2,14 @@ Template.causes_summary.UserHasTransactions = ->
   gave.Transactions.find().count() > 0
 
 Template.causes_summary.Causes = ->
-  okIds = []
+  debugger
+  okCauses = []
   gave.Causes.find().map (cause) ->
     totalDonated = gave.utils.sum gave.Transactions.find({ cause_id: cause._id }), "amount"
     if totalDonated > 0
-      okIds.push cause._id
-  # Return cursor
-  gave.Causes.find {_id: {$in: okIds}}
+      okCauses.push {cause: cause, total: totalDonated}
+  sorted = (_.sortBy okCauses, "total").reverse() # can't specify sort descending
+  _.pluck sorted, "cause"
 
 Template.causes_summary.SubTotal = ->
   subtotal = gave.utils.sum gave.Transactions.find(), "amount"

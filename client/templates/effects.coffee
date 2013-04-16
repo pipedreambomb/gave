@@ -24,7 +24,6 @@ updateLineChart = ->
   effectsCollection = []
 
   gave.Causes.find().map (cause) ->
-    debugger
     for effect in cause.effects
       do ->
         effects = effectsInRange cause._id, year, effect

@@ -102,7 +102,8 @@
             </tr>
          {{/each}}
          <tr>
-		 <td colspan="4">Total: $<span class="Transactions_subtotal">{{SubTotal}}</span></td>
+		 <td><strong>Total:</strong></td>
+		 <td><strong>$<span class="Transactions_subtotal">{{SubTotal}}</span></strong></td>
          </tr>
        </table>
    </div>
@@ -167,7 +168,7 @@
 	<table>
 		<tr>
 			<th>Cause</th>
-			<th>Total</th>
+			<th>Donations</th>
 		</tr>
 		{{#each Causes}}
 		<tr>
@@ -176,7 +177,8 @@
 		</tr>
 		{{/each}}
 		 <tr>
-		    <td colspan="2">Total: ${{SubTotal}}</td>
+			 <td><strong>Total:</strong></td>
+			 <td><strong>${{SubTotal}}</strong></td>
 		 </tr>
 	</table>
 {{else}}
