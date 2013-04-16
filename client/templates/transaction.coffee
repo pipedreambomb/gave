@@ -42,17 +42,17 @@ Template.transaction.events
     id = Session.get "currentTransactionId"
     if id
       tran._id = id
-      Meteor.call "updateTransaction", tran, null, (error, result) ->
-        if error?
-          Session.set "Transaction_error", error.details
-        else
-          Meteor.Router.to '/dashboard'
+      Meteor.call "updateTransaction", tran, null, insertOrUpdateCallback
     else
-      Meteor.call "insertTransaction", tran, null, (error, result) ->
-        if error?
-          Session.set "Transaction_error", error.details
-        else
-          Meteor.Router.to '/dashboard'
+      Meteor.call "insertTransaction", tran, null, insertOrUpdateCallback
+
+insertOrUpdateCallback = (error, result) ->
+  if error?
+    Session.set "Transaction_error", error.details
+  else
+    #ensures new transaction is displayed if recent
+    Session.set "transactionsInBarChart", null
+    Meteor.Router.to '/dashboard'
 
 # Without this, it creates a date at 0 hours, 0 minutes,
 # so it will immediately say your new donation was 18 hours ago,

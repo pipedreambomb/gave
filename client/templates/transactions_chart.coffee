@@ -18,6 +18,17 @@ updateBarChart = ->
   }
   new Chart(ctx).Bar data
 
+Template.transactions_chart.SelectNumberOfTransactionsOptions = ->
+  maxLimit = 6 # Bar Chart is too small for much more than this
+  totalTrans = gave.Transactions.find().count()
+  limit = if totalTrans < maxLimit then totalTrans else maxLimit
+  selected = Session.get "transactionsInBarChart"
+  unless selected?
+    Session.set "transactionsInBarChart", limit
+    selected = limit
+  for i in [1..limit]
+    do -> {numTrans: i, selected: i == selected}
+
 Template.transactions_chart.events
 
   'change .transactions-to-show-select': (event) ->
