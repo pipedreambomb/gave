@@ -6,6 +6,7 @@
     "bootstrap-datepicker": {},
     "bootboxjs": {},
     "chartjs": {},
-    "accounts-ui-bootstrap-dropdown": {}
+    "accounts-ui-bootstrap-dropdown": {},
+    "HTML5-History-API": {}
   }
 }

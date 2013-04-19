@@ -1,3 +1,7 @@
+Meteor.startup ->
+  Meteor.autorun ->
+    document.title = Session.get("pageTitle") + " - Giving Counts"
+
 Meteor.Router.filters
   'checkLoggedIn': (page) ->
     if Meteor.loggingIn() then 'loading'
@@ -7,15 +11,21 @@ Meteor.Router.filters
 Meteor.Router.filter 'checkLoggedIn', {except: ['home', 'about']}
 
 Meteor.Router.add
-  '/': 'home'
-  '/about': 'about'
-  '/dashboard': 'dashboard'
+  '/': ->
+    Session.set "pageTitle", "Home"
+    'home'
+  '/about': ->
+    Session.set "pageTitle", "About"
+    'about'
+  '/dashboard': ->
+    Session.set "pageTitle", "My Dashboard"
+    'dashboard'
   '/tests': 'tests'
-  '/transactions': 'transactions'
   '/add': ->
     Session.set "currentTransactionId", undefined
     Session.set "currentTransactionAmount", undefined
     Session.set "selectedCause", undefined
+    Session.set "pageTitle", "Add New Donation"
     'transaction'
   '/edit': 'home'
   '/edit/:id': (id) ->
@@ -24,4 +34,5 @@ Meteor.Router.add
     if tran
       Session.set "currentTransactionAmount", tran.amount
       Session.set "selectedCause", tran.cause_id
+      Session.set "pageTitle", "Edit Donation"
     'transaction'
