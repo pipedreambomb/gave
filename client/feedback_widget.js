@@ -8,7 +8,6 @@ Template.home.rendered = function() {
 	};
 
 	(function(d){
-		debugger;
 		var _we = d.createElement('script');
 		_we.type = 'text/javascript';
 		_we.async = true;
