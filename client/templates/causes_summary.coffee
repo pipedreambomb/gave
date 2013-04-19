@@ -2,7 +2,6 @@ Template.causes_summary.UserHasTransactions = ->
   gave.Transactions.find().count() > 0
 
 Template.causes_summary.Causes = ->
-  debugger
   okCauses = []
   gave.Causes.find().map (cause) ->
     totalDonated = gave.utils.sum gave.Transactions.find({ cause_id: cause._id }), "amount"
@@ -16,7 +15,7 @@ Template.causes_summary.SubTotal = ->
   subtotal.toFixed(2)
 
 Template.causes_summary.helpers
-  total: -> 
+  total: ->
     total = gave.utils.sum gave.Transactions.find({ cause_id: this._id }), "amount"
     total.toFixed(2)
 

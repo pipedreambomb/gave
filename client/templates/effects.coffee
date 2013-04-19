@@ -19,15 +19,8 @@ updateLineChart = ->
   el = $(".effects-line-chart").get(0)
   ctx = el?.getContext("2d")
   
-  year = 2013
-
-  effectsCollection = []
-
-  gave.Causes.find().map (cause) ->
-    for effect in cause.effects
-      do ->
-        effects = effectsInRange cause._id, year, effect
-        effectsCollection.push effects
+  labels = generateChartLabels()
+  effectsCollection = findAllEffectsInUserSelectedRange()
 
   datasets = for effects in effectsCollection
     {
@@ -39,18 +32,46 @@ updateLineChart = ->
     }
 
   data = {
-    labels : ["January","February","March","April"],
+    labels: labels
     datasets: datasets
   }
 
   new Chart(ctx).Line(data)
 
-effectsInRange = (causeId, year, effect) ->
-  perDollars = effect.perDollars
-  runningTotal = effectsBeforeDate causeId, (new Date year, 0, 1), perDollars
-  effectsPerMonth = for month in [0..3]
-    do ->
-      runningTotal += effectsInMonth causeId, year, month, perDollars
+generateChartLabels = ->
+
+  numMonths = Session.get 'monthsInLineChart'
+  currentMonth = moment().subtract 'months', numMonths
+  monthNames = [ "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December" ]
+  for [0..numMonths]
+    monthName = monthNames[currentMonth.month()]
+    currentMonth.add 'months', 1
+    monthName
+
+findAllEffectsInUserSelectedRange = ->
+  res = []
+
+  gave.Causes.find().map (cause) ->
+   for effect in cause.effects
+      do ->
+        effects = effectsInUserSelectedRange cause._id, effect
+        res.push effects
+  res
+
+effectsInUserSelectedRange = (causeId, effect) ->
+  
+  res = []
+  monthsSelected = Session.get "monthsInLineChart"
+  # Start from the first month in the range
+  m = moment().subtract 'months', monthsSelected
+  # Get the running total to include all the transactions before the range
+  runningTotal = effectsBeforeDate causeId, m.toDate(), effect.perDollars
+  for i in [0..monthsSelected]
+    runningTotal += effectsInMonth causeId, m.year(), m.month(), effect.perDollars
+    m.add 'months', 1
+    res.push runningTotal
+  res
 
 effectsBeforeDate = (causeId, date, perDollars) ->
   trans = gave.Transactions.find
@@ -73,7 +94,7 @@ effectsInMonth = (causeId, year, month, perDollars) -> # Month 0-indexed so Jan=
 
 Template.effects.SelectNumberOfMonthsOptions = ->
   maxLimit = 12
-  monthsAvailable = 3 # now minus earliest
+  monthsAvailable = findMonthsSinceFirstTransaction()
   limit = if monthsAvailable < maxLimit then monthsAvailable else maxLimit
   selected = Session.get "monthsInLineChart"
   unless selected?
@@ -81,6 +102,11 @@ Template.effects.SelectNumberOfMonthsOptions = ->
     selected = limit
   for i in [1..limit]
     do -> {numMonths: i, selected: i == selected}
+
+findMonthsSinceFirstTransaction = ->
+  firstTran = gave.Transactions.findOne {}, { sort: {date: 1} }
+  # compares a new Moment (i.e. now) to date in question, with months as unit
+  moment().diff firstTran.date, 'months'
 
 Template.effects.events
 

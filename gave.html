@@ -61,12 +61,12 @@
 	{{> transactions_table }}
 {{else}}
 <p>You don't have any donations to display here. You should add one!</p>
+<a class="btn" id="add_transaction" href='/add'>Add new donation<i class='icon-plus-sign'></i></a>
 {{/if}}
-<a class="btn" id="add_transaction" href='/add'>Add <i class='icon-plus-sign'></i></a>
 </template>
 
 <template name="transactions_chart">
-<canvas class="transactions-bar-chart"></canvas>
+<canvas class="transactions-bar-chart" width="680" height="220"></canvas>
 <div class="transactions-bar-chart-controls">
 	Chart shows
 	<select class="transactions-to-show-select span1">
@@ -83,6 +83,7 @@
 
 <template name="transactions_table">
    <div id="TransactionsTable">
+	<a class="btn" id="add_transaction" href='/add'>Add new donation<i class='icon-plus-sign'></i></a>
       <table>
          <tr>
             <th>Cause</th>
