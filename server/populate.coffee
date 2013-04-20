@@ -46,3 +46,15 @@ Meteor.startup ->
     console.log("no data, populating")
     _.map causes, (cause) ->
       gave.Causes.insert cause
+
+  createDemoUserIfDoesNotExist()
+  
+createDemoUserIfDoesNotExist = ->
+
+  if Meteor.users.find({username:"Demo_User"}).count() == 0
+    Accounts.createUser
+      username:"Demo_User"
+      profile:
+        name: "Demo User"
+      email: "demo@example.com"
+      password: "demo123"

@@ -1,4 +1,11 @@
-.boxshadow {
+.navbar .nav > li > a {line-height: 30px;}
+.navbar .brand {font-weight: bold}
+.navbar .brand.active {color: #fff}
+div.gave-signup-form {margin-top: 25px;}
+div.selected {background-color: rgb(224, 255, 168);}
+.lowercase {text-transform:lowercase;}
+
+img.boxshadow {/* Generated at http://www.css3.me/ */
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -9,24 +16,13 @@
 	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
 }
 
-.subtle { 
+.jumbotron .subtle { 
 	font-size: smaller;
 	padding: 10px;
 	color: #aaa;
 }
 
-.selected {background-color: rgb(224, 255, 168);}
-
-.lowercase {text-transform:lowercase;}
-
 #login-buttons {
 	line-height: 30px;
 	padding: 10px 20px 10px;
 }
-
-.navbar .nav > li > a {
-	line-height: 30px;
-}
-
-.navbar .brand {font-weight: bold}
-.navbar .brand.active {color: #fff}

@@ -15,9 +15,11 @@
 			  <ul class="nav">
 				  <li {{#if PageIsAbout}}class="active"{{/if}}><a href='/about'>About</a></li>
 				  {{#if UserIsLoggedIn}}
-					  <li {{#if PageIsDashboard}}class="active"{{/if}}><a href='/dashboard'>My dashboard</a></li>
+				  <li {{#if PageIsDashboard}}class="active"{{/if}}><a href='/dashboard'>My dashboard</a></li>
 				  {{/if}}
+				  {{#unless PageIsSignUp}}
 				  <li>{{loginButtons}}</li>
+				  {{/unless}}
 			  </ul>
 		  </div>
 	  </div>
@@ -36,7 +38,7 @@
 			<p>Why don't you start measuring it? With <strong>Giving Counts</strong>, you can keep track of your donations and see charts and totals for the impact you're making.</p>
 	</div>
 </div>
-	<a href='/demo' class='btn btn-primary'>Try a demo now!</a>
+	<a href='/demo' class='btn btn-primary'>Try the demo now!</a>
 </div>
 </template>
 
@@ -46,6 +48,7 @@
 </template>
 
 <template name="dashboard">
+{{> demo }}
 <div class="row">
   <div class="span8">
 	  <h2>Donations</h2>
@@ -121,6 +124,7 @@
 </template>
 
 <template name="transaction">
+{{> demo}}
 <h1>{{Action}} donation</h1>
 {{#if TransactionError}}
 <div class="alert alert-error"><strong>Whoops!</strong> {{TransactionError}}</div>
@@ -251,4 +255,28 @@
 {{else}}
 	<p>No effects to display yet.</p>
 {{/if}}
+</template>
+
+<template name="demo">
+{{#if UserIsDemoUser }}
+<div class="alert alert-info alert-block">
+    <h4>Welcome to the demo!</h4>
+    Have a play in this public sandbox, and see how the site works. When you're ready, grab a new account just for you. <a id="demo-signup" class="btn btn-primary" href="signup">Sign Up</a>
+</div>
+{{/if}}
+</template>
+
+<template name="signup">
+<div class="row">
+<div class="span3 offset3">
+	<h1>Sign up in 10 seconds flat!</h1>
+	<p>Choose to either:</p>
+	<p>1) Sign in with your existing profile from Google, Facebook or Twitter.</p>
+	<p><strong>or</strong></p>
+	<p>2) Enter a new username and password.</p>
+	<p>That's it! Welcome to Giving Counts :)</p>
+</div>
+<div class="span3 gave-signup-form">
+	{{loginButtons}}
+</div>
 </template>

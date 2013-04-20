@@ -8,7 +8,7 @@ Meteor.Router.filters
     else if Meteor.user() then page
     else 'home'
 
-Meteor.Router.filter 'checkLoggedIn', {except: ['home', 'about']}
+Meteor.Router.filter 'checkLoggedIn', {except: ['home', 'about', 'signup']}
 
 Meteor.Router.add
   '/': ->
@@ -17,8 +17,16 @@ Meteor.Router.add
   '/about': ->
     Session.set "pageTitle", "About"
     'about'
+  '/signup': ->
+    Session.set "pageTitle", "Sign Up"
+    'signup'
   '/dashboard': ->
     Session.set "pageTitle", "My Dashboard"
+    'dashboard'
+  '/demo': ->
+    Session.set "pageTitle", "My Dashboard"
+    unless Meteor.userId()?
+      Meteor.loginWithPassword "Demo_User", "demo123"
     'dashboard'
   '/tests': 'tests'
   '/add': ->
