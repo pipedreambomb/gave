@@ -1,4 +1,20 @@
-/* CSS declarations go here */
+.boxshadow {
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	/*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+	-moz-box-shadow: 0px 0px 20px #4a3440;
+	-webkit-box-shadow: 0px 0px 20px #4a3440;
+	box-shadow: 0px 0px 20px #4a3440;
+	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+}
+
+.subtle { 
+	font-size: smaller;
+	padding: 10px;
+	color: #aaa;
+}
+
 .selected {background-color: rgb(224, 255, 168);}
 
 .lowercase {text-transform:lowercase;}
