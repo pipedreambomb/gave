@@ -13,3 +13,7 @@
       collectionIterator.forEach (i) ->
         total += parseFloat i[property]
       total
+    resetLoginBox: ->
+      Accounts._loginButtonsSession.set('dropdownVisible', false)
+      Accounts._loginButtonsSession.set('inSignupFlow', false)
+      Accounts._loginButtonsSession.set('inForgotPasswordFlow', false)

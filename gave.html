@@ -14,8 +14,10 @@
 			  <a class="brand {{#if PageIsHome}}active{{/if}}" href='/'>Giving Counts</a>
 			  <ul class="nav">
 				  <li {{#if PageIsAbout}}class="active"{{/if}}><a href='/about'>About</a></li>
-				  {{#if UserIsLoggedIn}}
+				  {{#if UserIsLoggedInAndNotDemoUser}}
 				  <li {{#if PageIsDashboard}}class="active"{{/if}}><a href='/dashboard'>My dashboard</a></li>
+				  {{else}}
+				  <li {{#if PageIsDemo}}class="active"{{/if}}><a href='/demo'>Try the Demo</a></li>
 				  {{/if}}
 				  {{#unless PageIsSignUp}}
 				  <li>{{loginButtons}}</li>
@@ -38,7 +40,11 @@
 			<p>Why don't you start measuring it? With <strong>Giving Counts</strong>, you can keep track of your donations and see charts and totals for the impact you're making.</p>
 	</div>
 </div>
-	<a href='/demo' class='btn btn-primary'>Try the demo now!</a>
+{{#if UserId}}
+	<a href='/dashboard' class='btn btn-primary'>Go to my dashboard</a>
+{{else}}
+	<a href='/demo' class='btn btn-success'>Try the demo now!</a>
+{{/if}}
 </div>
 </template>
 

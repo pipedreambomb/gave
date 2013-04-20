@@ -3,11 +3,17 @@ Meteor.startup ->
     document.title = Session.get("pageTitle") + " - Giving Counts"
 
 Meteor.Router.filters
+  'logOutDemoUser': (page) ->
+    if Meteor.user()?.username == "Demo_User"
+      Meteor.logout()
+    gave.utils.resetLoginBox()
+    page
   'checkLoggedIn': (page) ->
     if Meteor.loggingIn() then 'loading'
     else if Meteor.user() then page
     else 'home'
 
+Meteor.Router.filter 'logOutDemoUser', {only: ['home', 'about', 'signup']}
 Meteor.Router.filter 'checkLoggedIn', {except: ['home', 'about', 'signup']}
 
 Meteor.Router.add
@@ -27,6 +33,7 @@ Meteor.Router.add
     Session.set "pageTitle", "My Dashboard"
     unless Meteor.userId()?
       Meteor.loginWithPassword "Demo_User", "demo123"
+    gave.utils.resetLoginBox()
     'dashboard'
   '/tests': 'tests'
   '/add': ->
