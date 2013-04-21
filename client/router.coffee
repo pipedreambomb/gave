@@ -13,16 +13,16 @@ Meteor.Router.filters
     else if Meteor.user() then page
     else 'home'
 
-Meteor.Router.filter 'logOutDemoUser', {only: ['home', 'about', 'signup']}
-Meteor.Router.filter 'checkLoggedIn', {except: ['home', 'about', 'signup']}
+Meteor.Router.filter 'logOutDemoUser', {only: ['home', 'faq', 'signup']}
+Meteor.Router.filter 'checkLoggedIn', {except: ['home', 'faq', 'signup']}
 
 Meteor.Router.add
   '/': ->
     Session.set "pageTitle", "Home"
     'home'
-  '/about': ->
-    Session.set "pageTitle", "About"
-    'about'
+  '/faq': ->
+    Session.set "pageTitle", "FAQ"
+    'faq'
   '/signup': ->
     Session.set "pageTitle", "Sign Up"
     'signup'

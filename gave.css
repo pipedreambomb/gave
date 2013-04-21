@@ -6,6 +6,12 @@
 div.gave-signup-form {margin-top: 25px;}
 div.selected {background-color: rgb(224, 255, 168);}
 
+a.btn.centered {
+	margin: 0 auto;
+	display: block;
+	width: 50%;
+}
+
 img.half-width-centered {
 	width:50%; 
 	margin: 0 auto;
