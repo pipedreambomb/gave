@@ -1,9 +1,16 @@
+.lowercase {text-transform:lowercase;}
+.centred {text-align: center;}
 .navbar .nav > li > a {line-height: 30px;}
 .navbar .brand {font-weight: bold}
 .navbar .brand.active {color: #fff}
 div.gave-signup-form {margin-top: 25px;}
 div.selected {background-color: rgb(224, 255, 168);}
-.lowercase {text-transform:lowercase;}
+
+img.half-width-centered {
+	width:50%; 
+	margin: 0 auto;
+	display: block;
+}
 
 img.boxshadow {/* Generated at http://www.css3.me/ */
 	-moz-border-radius: 5px;

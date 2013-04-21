@@ -29,22 +29,39 @@
 </template>
 
 <template name="home">
-<div class="jumbotron">
-<div class="row">
-	<div class="span5 offset1">
-			<img src='img/screenshot.png' class="boxshadow">
-			<p class="subtle">Seeing is believing - visualize the effects of your generosity.</p>
+<div class="jumbotron hero-unit span11">
+	<div class="row">
+		<div class="span5 offset1">
+				<img src='img/screenshot.png' class="boxshadow">
+				<p class="subtle">Seeing is believing - visualize the effects of your generosity.</p>
+		</div>
+		<div class="span5">
+				<h1>You <em>are</em> making a difference!</h1>
+				<p>Why don't you start measuring it? With <strong>Giving Counts</strong>, you can keep track of your donations and see charts and totals for the impact you're making. It's free!</p>
+		</div>
 	</div>
-	<div class="span5">
-			<h1>You <em>are</em> making a difference!</h1>
-			<p>Why don't you start measuring it? With <strong>Giving Counts</strong>, you can keep track of your donations and see charts and totals for the impact you're making.</p>
-	</div>
+	{{#if UserId}}
+		<a href='/dashboard' class='btn btn-primary'>Go to my dashboard</a>
+	{{else}}
+		<a href='/demo' class='btn btn-success'>Try the demo now!</a>
+	{{/if}}
 </div>
-{{#if UserId}}
-	<a href='/dashboard' class='btn btn-primary'>Go to my dashboard</a>
-{{else}}
-	<a href='/demo' class='btn btn-success'>Try the demo now!</a>
-{{/if}}
+<div class="row centred">
+	<div class="span3 offset1">
+		<img src='img/App-share-manager-icon.png' class="half-width-centered">
+		<h3>Organize</h3>
+		<p>Keep track of the charitable donations you make with our free web app. It's like keeping your own spreadsheet, but way more fun and powerful.</p>
+	</div>
+	<div class="span3">
+		<img src='img/Pie-chart-icon.png' class="half-width-centered">
+		<h3>Measure</h3>
+		<p>You can't know for sure how well you're doing something until you start to measure it. Maximize your philanthropic efforts by seeing your donations and their distribution between organizations in one place.</p>
+	</div>
+	<div class="span3">
+		<img src='img/blue-folder-icon.png' class="half-width-centered">
+		<h3>Give</h3>
+		<p>"Giving" means transferring something, but money is just the beginning. What are your donations being turned into? Bed nets? Lives saved? You might find you can commit more easily to helping when you can visualize the amounts of the effects you're having. </p>
+	</div>
 </div>
 </template>
 
