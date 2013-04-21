@@ -1,6 +1,6 @@
 Template.navbar.UserIsLoggedInAndNotDemoUser = ->
   user = Meteor.user()
-  user?.username != "Demo_User"
+  user.username != "Demo_User" if user?
 
 Template.navbar.PageIsHome = -> pageIs "home"
 Template.navbar.PageIsAbout = -> pageIs "about"
