@@ -194,8 +194,8 @@
 	<div class="span4">
 		<h2>Step 2: enter a donation</h2>
 		<form name="transaction">
+		 {{#with Transaction}}
 		    <label>
-			 {{#with Transaction}}
 			 Amount
 			 <div class="input-prepend">
 				 <span class="add-on">$</span>
@@ -205,8 +205,8 @@
 		    <label>
 			 Date   
 			 <input name="date" class="datepicker" value="{{shortDate}}" placeholder="E.g. 12/31/2012" type="text" {{#unless UserHasSelectedCause}}disabled{{/unless}}></input>
-			 {{/with}}
 		    </label>
+		 {{/with}}
 		    {{> live_effects }}
 		    <br/>
 		    <h2>Step 3: confirm</h2>

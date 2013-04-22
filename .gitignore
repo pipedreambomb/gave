@@ -1,5 +1,6 @@
 *.swp
 *.swo
 *.coffee~
-.meteor/*
+.meteor/local/*
+.meteor/meteorite/*
 *.lock
