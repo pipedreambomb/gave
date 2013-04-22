@@ -1,1 +1,1 @@
-METEOR_MOCHA_TEST_DIR=tests mrt deploy givingcounts.meteor.com
+mrt deploy givingcounts.meteor.com
