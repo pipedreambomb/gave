@@ -39,3 +39,7 @@ img.boxshadow {/* Generated at http://www.css3.me/ */
 	line-height: 30px;
 	padding: 10px 20px 10px;
 }
+
+body > .container {
+	margin-top: 30px;
+}
