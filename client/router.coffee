@@ -1,3 +1,4 @@
+  
 Meteor.startup ->
   Meteor.autorun ->
     document.title = Session.get("pageTitle") + " - Giving Counts"
