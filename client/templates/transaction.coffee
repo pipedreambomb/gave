@@ -1,3 +1,12 @@
+$datepickerEl = -> $ '.datepick'
+
+Template.transaction.rendered = ->
+  $el = $datepickerEl()
+  options =
+    showAnim: "slideDown"
+  $el.datepicker options
+
+
 Template.transaction.Transaction = ->
   id = Session.get "currentTransactionId"
   t = gave.Transactions.findOne { _id: id } if id
@@ -19,7 +28,10 @@ Template.transaction.Action = ->
   if Session.get "currentTransactionId" then "Edit" else "New"
 
 Template.transaction.events
-    
+  'focus .datepick': ->
+    ($ '.datepicker-days td.day').click ->
+      $datepickerEl().datepicker "hide"
+
   'keyup #tranAmount': (event) ->
     fieldVal = event.target.value
     if gave.utils.parsesToNumber fieldVal
@@ -68,13 +80,6 @@ parseDateOrUseNowIfToday = (dateStr) ->
     else
       return date
 
-Template.transaction.rendered = ->
-  # Set up the datepicker ui object
-  try
-    $('.datepicker').datepicker()
-  # Ignore error thrown when datepicker tries to parse an empty string.
-  # We definitely want a datepicker object on that input, especially
-  # if it is empty, or else how will it ever get a real value?
 
 Template.transaction.helpers
   shortDate: ->
