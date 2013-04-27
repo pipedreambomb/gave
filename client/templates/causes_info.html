@@ -1,0 +1,27 @@
+<!-- Display information about each cause when creating a new donation -->
+<template name="causes_info">
+{{#each Causes}}
+<div class="cause_info {{selected}}">
+	<hr/>
+	<h3>{{name}}</h3>
+	<h4>Category: {{category}}</h4>
+	<p><a href="{{website}}" target='_blank'>Visit website</a></p>
+	<p>{{description}}</p>
+	<div class="row">
+		<div class="span6">
+			<p>Effects:</p>
+			<ul>
+			{{#each sorted_effects}}
+			<li>1 <span class="lowercase">{{descr_singular}}</span> for every ${{perDollars}} given
+				<sup><a href="{{evidence}}" target='_blank'>[ref]</a></sup>
+			</li>
+			{{/each}}
+			</ul>
+		</div>
+		<div class="span2">
+			<a href='#' class="btn btn-primary select-cause" data-cause-id="{{_id}}">Select</a>
+		</div>
+	</div>
+</div>
+{{/each}}
+</template>

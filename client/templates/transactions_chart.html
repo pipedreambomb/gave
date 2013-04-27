@@ -1,0 +1,15 @@
+<template name="transactions_chart">
+<canvas class="transactions-bar-chart" width="680" height="220"></canvas>
+<div class="transactions-bar-chart-controls">
+	Chart shows
+	<select class="transactions-to-show-select span1">
+		{{#each SelectNumberOfTransactionsOptions}}
+		<option value="{{numTrans}}" 
+				{{#if selected}}selected{{/if}}>
+			{{numTrans}}
+		</option>
+		{{/each}}
+	</select>
+	recent transactions
+</div>
+</template>

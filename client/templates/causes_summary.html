@@ -1,0 +1,23 @@
+<template name="causes_summary">
+{{#if UserHasTransactions}}
+	<canvas class="causes-pie-chart"></canvas>
+	<table>
+		<tr>
+			<th>Cause</th>
+			<th>Donations</th>
+		</tr>
+		{{#each Causes}}
+		<tr>
+			<td>{{name}}</td>
+			<td>${{total}}</td>
+		</tr>
+		{{/each}}
+		 <tr>
+			 <td><strong>Total:</strong></td>
+			 <td><strong>${{SubTotal}}</strong></td>
+		 </tr>
+	</table>
+{{else}}
+	<p>As soon as you add some transactions, a summary of the causes you have given to will appear here.</p>
+{{/if}}
+</template>

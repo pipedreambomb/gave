@@ -1,0 +1,27 @@
+<template name="effects">
+{{#if UserHasTransactions }}
+	<canvas class="effects-line-chart"></canvas>
+	<div class="effects-line-chart-controls">
+		Chart shows
+		<select class="months-to-show-select span1">
+			{{#each SelectNumberOfMonthsOptions}}
+			<option value="{{numMonths}}" 
+					{{#if selected}}selected{{/if}}>
+				{{numMonths}}
+			</option>
+			{{/each}}
+		</select>
+		recent months
+	</div>
+	{{#each Causes}}
+		<h5>{{name}}</h5>
+		<ul>
+			{{#each Effects }}
+			<li>{{unit}}: {{totalEffects}}</li>
+			{{/each}}
+		</ul>
+	{{/each}}
+{{else}}
+	<p>No effects to display yet.</p>
+{{/if}}
+</template>

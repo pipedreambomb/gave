@@ -1,0 +1,28 @@
+<template name="transactions_table">
+   {{> add-tran-button}}
+	   <div id="TransactionsTable" class="span8">
+      <table>
+         <tr>
+            <th>Cause</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Actions</th>
+         </tr>
+         {{#each Transactions}}
+            <tr>
+               <td>{{cause}}</td>
+               <td>${{amount2dp}}</td>
+               <td>{{niceDate}}</td>
+	       <td>
+		       <a class='btn btn-primary' href='/edit/{{_id}}'>Edit</a> 
+		       <a class='btn btn-danger tran-del' href='#' data-cause-id="{{_id}}">Delete</a> 
+	       </td>
+            </tr>
+         {{/each}}
+         <tr>
+		 <td><strong>Total:</strong></td>
+		 <td><strong>$<span class="Transactions_subtotal">{{SubTotal}}</span></strong></td>
+         </tr>
+       </table>
+   </div>
+</template>

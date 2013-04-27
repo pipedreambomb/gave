@@ -1,0 +1,20 @@
+<template name="navbar">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="navbar-inner">
+		  <div class="container">
+			  <a class="brand {{#if PageIsHome}}active{{/if}}" href='/'>Giving Counts</a>
+			  <ul class="nav">
+				  <li {{#if PageIsFAQ}}class="active"{{/if}}><a href='/faq'>FAQ</a></li>
+				  {{#if UserIsLoggedInAndNotDemoUser}}
+				  <li {{#if PageIsDashboard}}class="active"{{/if}}><a href='/dashboard'>My dashboard</a></li>
+				  {{else}}
+				  <li {{#if PageIsDemo}}class="active"{{/if}}><a href='/demo'>Try the Demo</a></li>
+				  {{/if}}
+				  {{#unless PageIsSignUp}}
+				  <li>{{loginButtons}}</li>
+				  {{/unless}}
+			  </ul>
+		  </div>
+	  </div>
+  </div>
+</template>

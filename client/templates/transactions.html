@@ -1,0 +1,11 @@
+<template name="transactions">
+{{#if UserHasAtLeast2Transactions }}
+	{{> transactions_chart }}
+{{/if}}
+{{#if UserHasTransactions }}
+	{{> transactions_table }}
+{{else}}
+<p>You don't have any donations to display here. You should add one!</p>
+{{> add-tran-button}}
+{{/if}}
+</template>

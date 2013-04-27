@@ -1,0 +1,16 @@
+<template name="live_effects">
+<h3>Effects (updated as you type):</h3>
+	<ul>
+		{{#each Effects}}
+			{{#if nocause}}
+				<li>No cause selected.</li>
+			{{/if}}
+			{{#if noamount}}
+				<li>No amount selected.</li>
+			{{/if}}
+			{{#if amount}}
+				<li>{{description}}: {{amount_2dp}}</li>
+			{{/if}}
+		{{/each}}
+	</ul>
+</template>
