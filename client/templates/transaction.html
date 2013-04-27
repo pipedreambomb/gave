@@ -6,11 +6,11 @@
 {{/if}}
 <div class="row">
 	<div class="span8">
-		<h2>Step 1: choose a cause</h2>
+		<h2>Step 1: Select a cause</h2>
 		{{> causes_info }}
 	</div>
 	<div class="span4">
-		<h2>Step 2: enter a donation</h2>
+		<h2>Step 2: Enter a donation</h2>
 		<form name="transaction">
 		 {{#with Transaction}}
 		    <label>
@@ -27,7 +27,7 @@
 		 {{/with}}
 		    {{> live_effects }}
 		    <br/>
-		    <h2>Step 3: confirm</h2>
+		    <h2>Step 3: Confirm</h2>
 		    <a href='#' class='btn btn-success' id='doneBtn'>Add this donation</a>
 		    <a href='#' class='btn' id='cancelBtn'>Cancel</a>
 		  </form>
