@@ -130,7 +130,6 @@
 </template>
 
 <template name="tests">
-  <a href='/' class='btn'>Home</a>
   {{> mochaTestReport }}
 </template>
 
@@ -142,7 +141,7 @@
 	{{> transactions_table }}
 {{else}}
 <p>You don't have any donations to display here. You should add one!</p>
-<a class="btn" id="add_transaction" href='/add'>Add new donation<i class='icon-plus-sign'></i></a>
+<a class="btn btn-primary" id="add_transaction" href='/add'>Add new donation<i class='icon-plus-sign'></i></a>
 {{/if}}
 </template>
 
@@ -164,7 +163,7 @@
 
 <template name="transactions_table">
    <div id="TransactionsTable">
-	<a class="btn" id="add_transaction" href='/add'>Add new donation<i class='icon-plus-sign'></i></a>
+	<a class="btn btn-primary" id="add_transaction" href='/add'>Add new donation<i class='icon-plus-sign'></i></a>
       <table>
          <tr>
             <th>Cause</th>
@@ -178,7 +177,7 @@
                <td>${{amount2dp}}</td>
                <td>{{niceDate}}</td>
 	       <td>
-		       <a class='btn' href='/edit/{{_id}}'>Edit</a> 
+		       <a class='btn btn-primary' href='/edit/{{_id}}'>Edit</a> 
 		       <a class='btn btn-danger tran-del' href='#' data-cause-id="{{_id}}">Delete</a> 
 	       </td>
             </tr>
@@ -290,7 +289,7 @@
 			</ul>
 		</div>
 		<div class="span2">
-			<a href='#' class="btn select-cause" data-cause-id="{{_id}}">Select</a>
+			<a href='#' class="btn btn-primary select-cause" data-cause-id="{{_id}}">Select</a>
 		</div>
 	</div>
 </div>
