@@ -8,6 +8,18 @@ div.gave-signup-form {margin-top: 25px;}
 div.selected {background-color: rgb(224, 255, 168);}
 th {text-align: left;}
 
+.faq-content, .faq-content > blockquote > p {
+	font-size: large;
+}
+
+.faq-content h3 { 
+	margin-top:2em; 
+	margin-bottom:2em; 
+	font-size: larger;
+}
+
+.faq-content h2 { font-size: 42px; }
+
 a.btn.centered {
 	margin: 0 auto;
 	display: block;
