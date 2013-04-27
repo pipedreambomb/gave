@@ -6,6 +6,7 @@
 body > .container { margin-top: 60px;}
 div.gave-signup-form {margin-top: 25px;}
 div.selected {background-color: rgb(224, 255, 168);}
+th {text-align: left;}
 
 a.btn.centered {
 	margin: 0 auto;

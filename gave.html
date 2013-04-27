@@ -141,8 +141,14 @@
 	{{> transactions_table }}
 {{else}}
 <p>You don't have any donations to display here. You should add one!</p>
-<a class="btn btn-primary" id="add_transaction" href='/add'>Add new donation<i class='icon-plus-sign'></i></a>
+{{> add-tran-button}}
 {{/if}}
+</template>
+
+<template name="add-tran-button">
+	   <div class="span2 offset2">
+		   <a class="btn btn-primary" id="add_transaction" href='/add'><i class='icon-plus-sign icon-white'></i> Add new donation</a>
+	   </div>
 </template>
 
 <template name="transactions_chart">
@@ -162,8 +168,8 @@
 </template>
 
 <template name="transactions_table">
-   <div id="TransactionsTable">
-	<a class="btn btn-primary" id="add_transaction" href='/add'>Add new donation<i class='icon-plus-sign'></i></a>
+   {{> add-tran-button}}
+	   <div id="TransactionsTable" class="span8">
       <table>
          <tr>
             <th>Cause</th>
