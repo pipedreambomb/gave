@@ -1,7 +1,7 @@
 Meteor.startup ->
   Meteor.autorun ->
     title = Session.get("pageTitle") || "Loading"
-    document.title =  + " - Giving Counts"
+    document.title = title + " - Giving Counts"
 
 Meteor.Router.filters
   'logOutDemoUser': (page) ->
