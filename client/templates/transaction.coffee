@@ -27,6 +27,8 @@ Template.transaction.Causes = ->
 Template.transaction.Action = ->
   if Session.get "currentTransactionId" then "Edit" else "New"
 
+Template.transaction.PageIsEdit = -> "Edit" == Template.transaction.Action()
+
 Template.transaction.events
   'focus .datepick': ->
     ($ '.datepicker-days td.day').click ->

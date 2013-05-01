@@ -28,7 +28,11 @@
 		    {{> live_effects }}
 		    <br/>
 		    <h2>Step 3: Confirm</h2>
-		    <a href='#' class='btn btn-success' id='doneBtn'><i class="icon-white icon-plus"></i> Add this donation</a>
+		    {{#if PageIsEdit}}
+			    <a href='#' class='btn btn-primary' id='doneBtn'>Save Changes</a>
+		    {{else}}
+			    <a href='#' class='btn btn-success' id='doneBtn'><i class="icon-white icon-plus"></i> Add this donation</a>
+		    {{/if}}
 		    <a href='#' class='btn' id='cancelBtn'>Cancel</a>
 		  </form>
 	  </div>
