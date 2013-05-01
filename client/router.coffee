@@ -15,7 +15,7 @@ Meteor.Router.filters
     else 'home'
 
 Meteor.Router.filter 'logOutDemoUser', {only: ['home', 'faq', 'signup']}
-Meteor.Router.filter 'checkLoggedIn', {except: ['home', 'faq', 'signup']}
+Meteor.Router.filter 'checkLoggedIn', {except: ['home', 'faq', 'signup', 'tests']}
 
 Meteor.Router.add
   '/': ->

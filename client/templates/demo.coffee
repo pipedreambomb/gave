@@ -1,4 +1,4 @@
-Template.demo.UserIsDemoUser = -> Meteor.user().username == "Demo_User"
+Template.demo.UserIsDemoUser = -> gave.utils.userIsDemoUser()
 
 Template.demo.events
   'click #demo-signup': (event) ->

@@ -18,7 +18,6 @@ Meteor.methods
       delete tran._id
       delete tran.owner
       mongoModifier = {$set: tran}
-      console.log (EJSON.stringify mongoModifier)
       gave.Transactions.update tranId, mongoModifier
       # Return updated Transaction
       gave.Transactions.findOne tranId
@@ -30,6 +29,12 @@ Meteor.methods
     gave.Transactions.remove tranId
     # Return confirmation
     "Transaction removed"
+
+  removeAllTransactions: ->
+    userId = Meteor.userId()
+    count = gave.Transactions.find({owner: userId}).count()
+    gave.Transactions.remove {owner: userId}
+    "Removed " + count
 
 validateTransaction = (tran, causeIds, isUpdate) ->
   # This bit is to allow validation against a list of cause_ids,

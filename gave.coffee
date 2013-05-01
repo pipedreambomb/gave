@@ -17,3 +17,4 @@
       Accounts._loginButtonsSession.set('dropdownVisible', false)
       Accounts._loginButtonsSession.set('inSignupFlow', false)
       Accounts._loginButtonsSession.set('inForgotPasswordFlow', false)
+    userIsDemoUser: -> Meteor.user()?.username == "Demo_User"
