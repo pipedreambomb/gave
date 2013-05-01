@@ -19,7 +19,12 @@
 			</ul>
 		</div>
 		<div class="span2">
-			<a href='#' class="btn btn-primary select-cause" data-cause-id="{{_id}}">Select</a>
+			{{#if selected}}
+				<a href='#' class="btn btn-primary select-cause" data-cause-id="{{_id}}"><i class="icon-white icon-ok"></i> Selected</a>
+			{{else}}
+				<a href='#' class="btn btn-primary select-cause" data-cause-id="{{_id}}"><i class="icon-white icon-check"></i> Select</a>
+
+			{{/if}}
 		</div>
 	</div>
 </div>
