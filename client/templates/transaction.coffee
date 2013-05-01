@@ -8,11 +8,13 @@ Template.transaction.rendered = ->
 
 
 Template.transaction.Transaction = ->
+
   id = Session.get "currentTransactionId"
-  t = gave.Transactions.findOne { _id: id } if id
-  Session.set "selectedCause", t.cause_id if t
+  tran = gave.Transactions.findOne { _id: id } if id
+  unless Session.get "selectedCause"
+    Session.set "selectedCause", tran.cause_id if tran
   #feed the template some empty fields if no transaction matches
-  t or { amount: "", date: "" }
+  tran or { amount: "", date: "" }
 
 Template.transaction.TransactionError = ->
   Session.get "Transaction_error"
