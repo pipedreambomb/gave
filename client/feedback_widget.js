@@ -1,4 +1,4 @@
-Template.home.rendered = function() { 
+Template.navbar.rendered = function() { 
 	window.webengageWidgetInit = window.webengageWidgetInit || function(){
 		webengage.init({
 			licenseCode:"~2024bbc5"
