@@ -1,0 +1,16 @@
+<template name="demo">
+{{#if UserIsDemoUser }}
+<div class="alert alert-info alert-block">
+	<h4>Welcome to the demo!</h4>
+	<div class="row">
+		<div class="span9">
+			<p>Have a play in this public "sandbox", and see how the site works. Try adding or editing donations, but remember that changes you make will be shared with other demo users, and vice versa.</p>
+			<p>When you're ready, grab a new account just for you.</p>
+		</div>
+		<div class="span2">
+			<a id="demo-signup" class="btn btn-large btn-success" href="signup"><i class="icon-white icon-user"></i> Sign Up</a>
+		</div>
+	</div>
+</div>
+{{/if}}
+</template>
