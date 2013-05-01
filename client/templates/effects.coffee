@@ -21,6 +21,7 @@ Template.effects.Causes = ->
             # Biggest impacts first, makes users feel better!
             (_.sortBy res, "totalEffects").reverse()
 
+
 Template.effects.helpers = Template.causes_summary.helpers
 
 updateLineChart = ->
@@ -103,7 +104,8 @@ effectsInMonth = (causeId, year, month, perDollars) -> # Month 0-indexed so Jan=
 
 Template.effects.SelectNumberOfMonthsOptions = ->
   maxLimit = 12
-  monthsAvailable = findMonthsSinceFirstTransaction()
+  # Never allow 0, it makes for a confusing chart
+  monthsAvailable = findMonthsSinceFirstTransaction() || 1 
   limit = if monthsAvailable < maxLimit then monthsAvailable else maxLimit
   selected = Session.get "monthsInLineChart"
   unless selected?
