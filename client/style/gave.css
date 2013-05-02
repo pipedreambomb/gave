@@ -10,6 +10,7 @@ th {text-align: left;}
 
 .faq-content, .faq-content > blockquote > p {
 	font-size: large;
+	line-height: 1.7;
 }
 
 .faq-content h3 { 
